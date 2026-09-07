@@ -15,27 +15,14 @@ namespace CommunityBot.Host;
 /// <remarks>
 /// Handles application bootstrapping, logging configuration,
 /// dependency registration and database schema initialization.
-/// Discord gateway initialization is added separately by the
-/// presentation layer.
+/// Discord gateway initialization is added separately by the presentation layer.
 /// </remarks>
 internal abstract class Program
 {
-    /// <summary>
-    /// Configures and runs the application host.
-    /// </summary>
-    /// <param name="args">Command-line arguments supplied at startup.</param>
-    /// <returns>
-    /// An exit code of 0 after a graceful shutdown,
-    /// or 1 when startup terminates unexpectedly.
-    /// </returns>
     public static async Task<int> Main(string[] args)
     {
-        // Provides logging before the full dependency injection
-        // container and configuration pipeline are available.
         Log.Logger = new LoggerConfiguration()
-            .MinimumLevel.Override(
-                "Microsoft",
-                LogEventLevel.Information)
+            .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
             .Enrich.FromLogContext()
             .WriteTo.Console()
             .CreateBootstrapLogger();
@@ -44,8 +31,12 @@ internal abstract class Program
         {
             Log.Information("Starting CommunityBot host...");
 
-            var builder =
-                Microsoft.Extensions.Hosting.Host.CreateApplicationBuilder(args);
+            var builder = Microsoft.Extensions.Hosting.Host.CreateApplicationBuilder(
+                new HostApplicationBuilderSettings
+                {
+                    Args = args,
+                    ContentRootPath = AppContext.BaseDirectory
+                });
 
             ConfigureConfiguration(builder);
             ConfigureLogger(builder);
@@ -53,17 +44,13 @@ internal abstract class Program
             var host = builder.Build();
 
             await InitializeDatabaseAsync(host);
-
             await host.RunAsync();
 
             return 0;
         }
         catch (Exception ex)
         {
-            Log.Fatal(
-                ex,
-                "Host terminated unexpectedly");
-
+            Log.Fatal(ex, "Host terminated unexpectedly");
             return 1;
         }
         finally
@@ -72,10 +59,6 @@ internal abstract class Program
         }
     }
 
-    /// <summary>
-    /// Applies all pending Entity Framework Core migrations
-    /// before the application begins processing work.
-    /// </summary>
     private static async Task InitializeDatabaseAsync(IHost host)
     {
         using var scope = host.Services.CreateScope();
@@ -85,67 +68,37 @@ internal abstract class Program
 
         try
         {
-            logger.LogInformation(
-                "Applying pending database migrations...");
+            logger.LogInformation("Applying pending database migrations...");
 
-            var context =
-                services.GetRequiredService<AppDbContext>();
-
+            var context = services.GetRequiredService<AppDbContext>();
             await context.Database.MigrateAsync();
 
-            logger.LogInformation(
-                "Database migrations applied successfully.");
+            logger.LogInformation("Database migrations applied successfully.");
         }
         catch (Exception ex)
         {
-            logger.LogCritical(
-                ex,
-                "An error occurred while initializing the database.");
-
+            logger.LogCritical(ex, "An error occurred while initializing the database.");
             throw;
         }
     }
 
-    /// <summary>
-    /// Configures application configuration providers
-    /// and dependency registration.
-    /// </summary>
-    /// <remarks>
-    /// Precedence:
-    /// appsettings.json →
-    /// appsettings.{Environment}.json →
-    /// environment variables.
-    /// </remarks>
-    private static void ConfigureConfiguration(
-        HostApplicationBuilder builder)
+    private static void ConfigureConfiguration(HostApplicationBuilder builder)
     {
         builder.Configuration
-            .AddJsonFile(
-                "appsettings.json",
-                optional: false,
-                reloadOnChange: true)
-            .AddJsonFile(
-                $"appsettings.{builder.Environment.EnvironmentName}.json",
-                optional: true)
+            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+            .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true)
             .AddEnvironmentVariables();
 
-        ServicesConfiguration.Configure(
-            builder.Services,
-            builder.Configuration);
+        ServicesConfiguration.Configure(builder.Services, builder.Configuration);
     }
 
-    /// <summary>
-    /// Configures Serilog as the application's logging provider.
-    /// </summary>
-    private static void ConfigureLogger(
-        HostApplicationBuilder builder)
+    private static void ConfigureLogger(HostApplicationBuilder builder)
     {
         builder.Logging.ClearProviders();
 
-        builder.Services.AddSerilog((services, configuration) =>
-            configuration
-                .ReadFrom.Configuration(builder.Configuration)
-                .ReadFrom.Services(services)
-                .Enrich.FromLogContext());
+        builder.Services.AddSerilog((services, configuration) => configuration
+            .ReadFrom.Configuration(builder.Configuration)
+            .ReadFrom.Services(services)
+            .Enrich.FromLogContext());
     }
 }
