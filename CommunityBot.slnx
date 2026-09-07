@@ -1,0 +1,12 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/CommunityBot.Application/CommunityBot.Application.csproj" />
+    <Project Path="src/CommunityBot.Core/CommunityBot.Core.csproj" />
+    <Project Path="src/CommunityBot.Discord/CommunityBot.Discord.csproj" />
+    <Project Path="src/CommunityBot.Host/CommunityBot.Host.csproj" />
+    <Project Path="src/CommunityBot.Infrastructure/CommunityBot.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/CommunityBot.Tests/CommunityBot.Tests.csproj" />
+  </Folder>
+</Solution>

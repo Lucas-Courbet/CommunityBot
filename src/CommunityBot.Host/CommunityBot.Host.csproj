@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\CommunityBot.Application\CommunityBot.Application.csproj" />
+    <ProjectReference Include="..\CommunityBot.Infrastructure\CommunityBot.Infrastructure.csproj" />
+    <ProjectReference Include="..\CommunityBot.Discord\CommunityBot.Discord.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+</Project>
