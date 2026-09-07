@@ -1,0 +1,48 @@
+﻿services:
+  database:
+    image: postgres:17-alpine
+    container_name: communitybot_db
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - "${POSTGRES_PORT}:5432"
+    volumes:
+      - communitybot_data:/var/lib/postgresql/data
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks:
+      - communitybot-network
+
+  bot:
+    build:
+      context: .
+      dockerfile: src/CommunityBot.Host/Dockerfile
+    container_name: communitybot_app
+    restart: unless-stopped
+    environment:
+      ConnectionStrings__Default: >-
+        Host=database;
+        Port=5432;
+        Database=${POSTGRES_DB};
+        Username=${POSTGRES_USER};
+        Password=${POSTGRES_PASSWORD}
+    depends_on:
+      database:
+        condition: service_healthy
+    networks:
+      - communitybot-network
+
+volumes:
+  communitybot_data:
+
+networks:
+  communitybot-network:
+    driver: bridge
