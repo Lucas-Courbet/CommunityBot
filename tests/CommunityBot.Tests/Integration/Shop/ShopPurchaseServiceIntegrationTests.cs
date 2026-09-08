@@ -1,5 +1,4 @@
-﻿using CommunityBot.Application.Economy;
-using CommunityBot.Application.Items;
+﻿using CommunityBot.Application.Items;
 using CommunityBot.Application.Members;
 using CommunityBot.Application.Shop;
 using CommunityBot.Core.Economy;
