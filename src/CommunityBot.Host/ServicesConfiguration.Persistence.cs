@@ -1,5 +1,8 @@
-﻿using CommunityBot.Application.Members;
+﻿using CommunityBot.Application.Common.Persistence;
+using CommunityBot.Application.Economy;
+using CommunityBot.Application.Members;
 using CommunityBot.Infrastructure.Persistence;
+using CommunityBot.Infrastructure.Persistence.Economy;
 using CommunityBot.Infrastructure.Persistence.Interceptors;
 using CommunityBot.Infrastructure.Persistence.Members;
 using Microsoft.EntityFrameworkCore;
@@ -33,8 +36,16 @@ public static partial class ServicesConfiguration
             options.AddInterceptors(
                 provider.GetRequiredService<AuditInterceptor>());
         });
+        
+        services.AddScoped<IPersistenceContext>(
+            provider => provider.GetRequiredService<AppDbContext>());
 
         // Repositories
+        
+        // Members
         services.AddScoped<IMemberRepository, MemberRepository>();
+
+        // Economy
+        services.AddScoped<ITransactionRepository, TransactionRepository>();
     }
 }

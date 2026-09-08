@@ -226,5 +226,10 @@ public sealed class MemberServiceTests
 
             return Task.FromResult(1);
         }
+        
+        public Task<Member?> GetByIdForUpdateAsync(
+            ulong memberId, 
+            CancellationToken ct = default)
+            => GetByIdAsync(memberId, ct);
     }
 }

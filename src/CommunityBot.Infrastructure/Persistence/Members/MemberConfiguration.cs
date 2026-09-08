@@ -5,19 +5,16 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 namespace CommunityBot.Infrastructure.Persistence.Members;
 
 /// <summary>
-/// Configures the relational persistence mapping for <see cref="Member"/>.
+/// Configures relational persistence for <see cref="Member"/>.
 /// </summary>
-public sealed class MemberConfiguration
-    : IEntityTypeConfiguration<Member>
+public sealed class MemberConfiguration : IEntityTypeConfiguration<Member>
 {
-    /// <inheritdoc />
     public void Configure(EntityTypeBuilder<Member> builder)
     {
         builder.ToTable("members");
 
         builder.HasKey(member => member.Id);
 
-        // Discord supplies the snowflake identifier.
         builder.Property(member => member.Id)
             .ValueGeneratedNever();
 
@@ -31,5 +28,12 @@ public sealed class MemberConfiguration
         builder.Property(member => member.IsActive)
             .IsRequired()
             .HasDefaultValue(true);
+
+        builder.Property(member => member.CurrencyBalance)
+            .HasDefaultValue(0);
+
+        builder.HasMany(member => member.Transactions)
+            .WithOne(transaction => transaction.Member)
+            .HasForeignKey(transaction => transaction.MemberId);
     }
 }

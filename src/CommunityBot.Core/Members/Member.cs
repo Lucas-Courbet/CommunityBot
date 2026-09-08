@@ -1,10 +1,11 @@
 ﻿using CommunityBot.Core.Common;
+using CommunityBot.Core.Economy;
 
 namespace CommunityBot.Core.Members;
 
 /// <summary>
 /// Represents a Discord member tracked by the application.
-/// The entity owns the member identity snapshot and lifecycle state.
+/// Acts as the aggregate root for member identity, lifecycle and financial state.
 /// </summary>
 public sealed class Member : IEntity<ulong>, IAuditable
 {
@@ -39,11 +40,21 @@ public sealed class Member : IEntity<ulong>, IAuditable
     /// </summary>
     public bool IsActive { get; private set; }
 
+    /// <summary>
+    /// Current amount of application currency available to the member.
+    /// </summary>
+    public int CurrencyBalance { get; private set; }
+
     /// <inheritdoc />
     public DateTime CreatedAt { get; set; }
 
     /// <inheritdoc />
     public DateTime UpdatedAt { get; set; }
+
+    /// <summary>
+    /// Financial transactions associated with the member.
+    /// </summary>
+    public ICollection<Transaction> Transactions { get; private set; } = new List<Transaction>();
 
     /// <summary>
     /// Reserved for persistence frameworks.
@@ -60,6 +71,7 @@ public sealed class Member : IEntity<ulong>, IAuditable
         JoinedAt = NormalizeJoinedAt(identity.JoinedAt);
         IsBot = identity.IsBot;
         IsActive = true;
+        CurrencyBalance = 0;
     }
 
     /// <summary>
@@ -90,6 +102,31 @@ public sealed class Member : IEntity<ulong>, IAuditable
     }
 
     /// <summary>
+    /// Credits application currency to the member.
+    /// </summary>
+    public void CreditCurrency(int amount)
+    {
+        if (amount <= 0)
+            throw new ArgumentException("Amount must be positive.", nameof(amount));
+
+        CurrencyBalance += amount;
+    }
+
+    /// <summary>
+    /// Debits application currency from the member.
+    /// </summary>
+    public void DebitCurrency(int amount)
+    {
+        if (amount <= 0)
+            throw new ArgumentException("Amount must be positive.", nameof(amount));
+
+        if (CurrencyBalance < amount)
+            throw new InvalidOperationException("Insufficient funds.");
+
+        CurrencyBalance -= amount;
+    }
+
+    /// <summary>
     /// Synchronizes the member with the supplied Discord identity.
     /// </summary>
     /// <returns>
@@ -101,11 +138,9 @@ public sealed class Member : IEntity<ulong>, IAuditable
         ValidateIdentity(identity);
 
         if (identity.Id != Id)
-        {
             throw new ArgumentException(
                 "The supplied identity belongs to a different Discord member.",
                 nameof(identity));
-        }
 
         var hasChanges = false;
 
@@ -145,18 +180,14 @@ public sealed class Member : IEntity<ulong>, IAuditable
         ArgumentNullException.ThrowIfNull(identity);
 
         if (identity.Id == 0)
-        {
             throw new ArgumentException(
                 "A Discord member identifier cannot be zero.",
                 nameof(identity));
-        }
 
         if (string.IsNullOrWhiteSpace(identity.Username))
-        {
             throw new ArgumentException(
                 "A Discord member username is required.",
                 nameof(identity));
-        }
     }
 
     private static DateTimeOffset? NormalizeJoinedAt(DateTimeOffset? joinedAt)
