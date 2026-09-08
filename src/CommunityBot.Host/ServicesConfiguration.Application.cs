@@ -1,6 +1,7 @@
 ﻿using CommunityBot.Application.Economy;
 using CommunityBot.Application.Items;
 using CommunityBot.Application.Members;
+using CommunityBot.Application.Shop;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CommunityBot.Host;
@@ -15,10 +16,15 @@ public static partial class ServicesConfiguration
         // Economy
         services.AddScoped<ITransactionService, TransactionService>();
 
-        // Members
-        services.AddScoped<IMemberService, MemberService>();
-        
         // Items
         services.AddScoped<IItemAcquisitionService, ItemAcquisitionService>();
+
+        // Members
+        services.AddScoped<IMemberService, MemberService>();
+
+        // Shop
+        services.AddScoped<ShopPurchaseStore>();
+        services.AddScoped<IShopCatalogService, ShopCatalogService>();
+        services.AddScoped<IShopPurchaseService, ShopPurchaseService>();
     }
 }

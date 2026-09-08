@@ -65,4 +65,14 @@ public sealed class Transaction : IEntity<long>, IAuditable
             Type = type,
             Reason = reason
         };
+    
+    /// <summary>
+    /// Creates the financial record associated with a shop purchase.
+    /// </summary>
+    public static Transaction CreateShopPurchase(ulong memberId, int price, string itemLabel)
+        => Create(
+            memberId,
+            -price,
+            TransactionType.ShopPurchase,
+            $"Shop purchase: {itemLabel}");
 }
