@@ -1,4 +1,5 @@
 ﻿using CommunityBot.Application.Economy;
+using CommunityBot.Application.Items;
 using CommunityBot.Application.Members;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -16,5 +17,8 @@ public static partial class ServicesConfiguration
 
         // Members
         services.AddScoped<IMemberService, MemberService>();
+        
+        // Items
+        services.AddScoped<IItemAcquisitionService, ItemAcquisitionService>();
     }
 }

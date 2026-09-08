@@ -1,5 +1,6 @@
 ﻿using CommunityBot.Core.Common;
 using CommunityBot.Core.Economy;
+using CommunityBot.Core.Items;
 
 namespace CommunityBot.Core.Members;
 
@@ -55,6 +56,11 @@ public sealed class Member : IEntity<ulong>, IAuditable
     /// Financial transactions associated with the member.
     /// </summary>
     public ICollection<Transaction> Transactions { get; private set; } = new List<Transaction>();
+    
+    /// <summary>
+    /// Inventory entries owned by the member.
+    /// </summary>
+    public ICollection<InventoryItem> Inventory { get; private set; } = new List<InventoryItem>();
 
     /// <summary>
     /// Reserved for persistence frameworks.

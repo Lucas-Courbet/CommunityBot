@@ -1,9 +1,11 @@
 ﻿using CommunityBot.Application.Common.Persistence;
 using CommunityBot.Application.Economy;
+using CommunityBot.Application.Items;
 using CommunityBot.Application.Members;
 using CommunityBot.Infrastructure.Persistence;
 using CommunityBot.Infrastructure.Persistence.Economy;
 using CommunityBot.Infrastructure.Persistence.Interceptors;
+using CommunityBot.Infrastructure.Persistence.Items;
 using CommunityBot.Infrastructure.Persistence.Members;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -47,5 +49,10 @@ public static partial class ServicesConfiguration
 
         // Economy
         services.AddScoped<ITransactionRepository, TransactionRepository>();
+        
+        // Items
+        services.AddScoped<IItemRepository, ItemRepository>();
+        services.AddScoped<IShopItemRepository, ShopItemRepository>();
+        services.AddScoped<IInventoryRepository, InventoryRepository>();
     }
 }
