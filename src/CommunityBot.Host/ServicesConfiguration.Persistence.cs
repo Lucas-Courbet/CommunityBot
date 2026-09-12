@@ -2,11 +2,13 @@
 using CommunityBot.Application.Economy;
 using CommunityBot.Application.Items;
 using CommunityBot.Application.Members;
+using CommunityBot.Application.Rewards;
 using CommunityBot.Infrastructure.Persistence;
 using CommunityBot.Infrastructure.Persistence.Economy;
 using CommunityBot.Infrastructure.Persistence.Interceptors;
 using CommunityBot.Infrastructure.Persistence.Items;
 using CommunityBot.Infrastructure.Persistence.Members;
+using CommunityBot.Infrastructure.Persistence.Rewards;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -54,5 +56,7 @@ public static partial class ServicesConfiguration
         services.AddScoped<IItemRepository, ItemRepository>();
         services.AddScoped<IShopItemRepository, ShopItemRepository>();
         services.AddScoped<IInventoryRepository, InventoryRepository>();
+        
+        services.AddScoped<IRewardEntitlementRepository, RewardEntitlementRepository>();
     }
 }

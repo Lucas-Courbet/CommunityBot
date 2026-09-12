@@ -2,6 +2,7 @@
 using CommunityBot.Core.Economy;
 using CommunityBot.Core.Items;
 using CommunityBot.Core.Members;
+using CommunityBot.Core.Rewards;
 using Microsoft.EntityFrameworkCore;
 
 namespace CommunityBot.Infrastructure.Persistence;
@@ -22,6 +23,8 @@ public sealed class AppDbContext(
     public DbSet<ShopItem> ShopItems => Set<ShopItem>();
 
     public DbSet<InventoryItem> Inventory => Set<InventoryItem>();
+    
+    public DbSet<RewardEntitlement> RewardEntitlements => Set<RewardEntitlement>();
 
     /// <inheritdoc />
     protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)

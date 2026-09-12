@@ -1,6 +1,7 @@
 ﻿using CommunityBot.Application.Economy;
 using CommunityBot.Application.Items;
 using CommunityBot.Application.Members;
+using CommunityBot.Application.Rewards;
 using CommunityBot.Application.Shop;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -26,5 +27,7 @@ public static partial class ServicesConfiguration
         services.AddScoped<ShopPurchaseStore>();
         services.AddScoped<IShopCatalogService, ShopCatalogService>();
         services.AddScoped<IShopPurchaseService, ShopPurchaseService>();
+        
+        services.AddScoped<IRewardDeliveryService, RewardDeliveryService>();
     }
 }
