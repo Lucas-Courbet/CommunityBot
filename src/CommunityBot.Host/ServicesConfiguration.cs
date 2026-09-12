@@ -17,5 +17,6 @@ public static partial class ServicesConfiguration
     {
         ConfigurePersistence(services, configuration);
         ConfigureApplicationServices(services);
+        ConfigureDiscord(services, configuration);
     }
 }

@@ -1,9 +1,11 @@
-﻿using CommunityBot.Infrastructure.Persistence;
+﻿using CommunityBot.Discord.Modules;
+using CommunityBot.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using NetCord.Hosting.Services;
 using Serilog;
 using Serilog.Events;
 
@@ -14,8 +16,7 @@ namespace CommunityBot.Host;
 /// </summary>
 /// <remarks>
 /// Handles application bootstrapping, logging configuration,
-/// dependency registration and database schema initialization.
-/// Discord gateway initialization is added separately by the presentation layer.
+/// database schema initialization and Discord gateway startup.
 /// </remarks>
 internal abstract class Program
 {
@@ -44,6 +45,10 @@ internal abstract class Program
             var host = builder.Build();
 
             await InitializeDatabaseAsync(host);
+
+            if (builder.Configuration.GetValue<bool>("Discord:Enabled"))
+                host.AddModules(typeof(ABaseSlashModule).Assembly);
+
             await host.RunAsync();
 
             return 0;

@@ -34,6 +34,8 @@
         Database=${POSTGRES_DB};
         Username=${POSTGRES_USER};
         Password=${POSTGRES_PASSWORD}
+      Discord__Enabled: "${DISCORD_ENABLED:-false}"
+      Discord__Token: "${DISCORD_TOKEN:-}"
     depends_on:
       database:
         condition: service_healthy
