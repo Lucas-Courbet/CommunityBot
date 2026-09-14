@@ -52,7 +52,6 @@ public sealed class RewardEntitlement : IEntity<long>, IAuditable
 
         AttemptCount++;
         LastAttemptAt = now;
-        LastError = null;
         Status = RewardEntitlementStatus.Delivered;
         DeliveredAt = now;
     }
