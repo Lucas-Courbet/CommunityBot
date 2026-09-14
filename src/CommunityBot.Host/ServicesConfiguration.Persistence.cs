@@ -57,6 +57,7 @@ public static partial class ServicesConfiguration
         services.AddScoped<IShopItemRepository, ShopItemRepository>();
         services.AddScoped<IInventoryRepository, InventoryRepository>();
         
+        // Rewards
         services.AddScoped<IRewardEntitlementRepository, RewardEntitlementRepository>();
     }
 }

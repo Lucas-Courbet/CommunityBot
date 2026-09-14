@@ -27,7 +27,10 @@ public static partial class ServicesConfiguration
         services.AddScoped<ShopPurchaseStore>();
         services.AddScoped<IShopCatalogService, ShopCatalogService>();
         services.AddScoped<IShopPurchaseService, ShopPurchaseService>();
-        
+
+        // Rewards
         services.AddScoped<IRewardDeliveryService, RewardDeliveryService>();
+        services.AddScoped<IRewardDeliveryHandler, CurrencyRewardDeliveryHandler>();
+        services.AddScoped<IRewardDeliveryHandler, ItemRewardDeliveryHandler>();
     }
 }

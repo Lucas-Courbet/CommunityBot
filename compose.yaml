@@ -36,6 +36,7 @@
         Password=${POSTGRES_PASSWORD}
       Discord__Enabled: "${DISCORD_ENABLED:-false}"
       Discord__Token: "${DISCORD_TOKEN:-}"
+      Discord__GuildId: "${DISCORD_GUILD_ID:-0}"
     depends_on:
       database:
         condition: service_healthy

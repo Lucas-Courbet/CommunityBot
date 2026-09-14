@@ -9,4 +9,6 @@ public interface IRewardEntitlementRepository
     Task<RewardEntitlement?> GetByIdForUpdateAsync(long entitlementId, CancellationToken ct = default);
 
     Task<RewardType?> GetRewardTypeByIdAsync(long entitlementId, CancellationToken ct = default);
+    
+    Task<RewardDeliverySnapshot?> GetDeliverySnapshotAsync(long entitlementId, CancellationToken ct = default);
 }
