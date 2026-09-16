@@ -1,9 +1,11 @@
-﻿using CommunityBot.Application.Common.Persistence;
+﻿using CommunityBot.Application.Activities;
+using CommunityBot.Application.Common.Persistence;
 using CommunityBot.Application.Economy;
 using CommunityBot.Application.Items;
 using CommunityBot.Application.Members;
 using CommunityBot.Application.Rewards;
 using CommunityBot.Infrastructure.Persistence;
+using CommunityBot.Infrastructure.Persistence.Activities;
 using CommunityBot.Infrastructure.Persistence.Economy;
 using CommunityBot.Infrastructure.Persistence.Interceptors;
 using CommunityBot.Infrastructure.Persistence.Items;
@@ -59,5 +61,11 @@ public static partial class ServicesConfiguration
         
         // Rewards
         services.AddScoped<IRewardEntitlementRepository, RewardEntitlementRepository>();
+        
+        // Activities
+        services.AddScoped<IActivityEventRepository, ActivityEventRepository>();
+        services.AddScoped<IActivityCaptureGateRepository, ActivityCaptureGateRepository>();
+        services.AddScoped<IActivitySubscriptionRepository, ActivitySubscriptionRepository>();
+        services.AddScoped<IActivityConsumptionRepository, ActivityConsumptionRepository>();
     }
 }

@@ -1,4 +1,5 @@
 ﻿using CommunityBot.Application.Common.Persistence;
+using CommunityBot.Core.Activities;
 using CommunityBot.Core.Economy;
 using CommunityBot.Core.Items;
 using CommunityBot.Core.Members;
@@ -25,6 +26,14 @@ public sealed class AppDbContext(
     public DbSet<InventoryItem> Inventory => Set<InventoryItem>();
     
     public DbSet<RewardEntitlement> RewardEntitlements => Set<RewardEntitlement>();
+    
+    public DbSet<ActivityEvent> ActivityEvents => Set<ActivityEvent>();
+
+    public DbSet<ActivityCaptureGate> ActivityCaptureGates => Set<ActivityCaptureGate>();
+
+    public DbSet<ActivitySubscription> ActivitySubscriptions => Set<ActivitySubscription>();
+
+    public DbSet<ActivityConsumption> ActivityConsumptions => Set<ActivityConsumption>();
 
     /// <inheritdoc />
     protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
