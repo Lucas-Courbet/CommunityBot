@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace CommunityBot.Infrastructure.Persistence.Activities;
+namespace CommunityBot.Infrastructure.Persistence.Activities.Configurations;
 
 public sealed class ActivityEventConfiguration : IEntityTypeConfiguration<ActivityEvent>
 {

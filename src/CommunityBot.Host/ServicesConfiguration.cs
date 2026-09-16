@@ -8,15 +8,13 @@ namespace CommunityBot.Host;
 /// </summary>
 public static partial class ServicesConfiguration
 {
-    /// <summary>
-    /// Registers the services required by the application.
-    /// </summary>
     public static void Configure(
         IServiceCollection services,
         IConfiguration configuration)
     {
         ConfigurePersistence(services, configuration);
         ConfigureApplicationServices(services);
+        ConfigureActivities(services, configuration);
         ConfigureDiscord(services, configuration);
     }
 }

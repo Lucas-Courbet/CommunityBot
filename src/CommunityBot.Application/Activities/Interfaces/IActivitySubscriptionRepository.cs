@@ -1,6 +1,6 @@
 ﻿using CommunityBot.Core.Activities;
 
-namespace CommunityBot.Application.Activities;
+namespace CommunityBot.Application.Activities.Interfaces;
 
 public interface IActivitySubscriptionRepository
 {

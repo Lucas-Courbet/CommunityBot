@@ -1,4 +1,4 @@
-﻿using CommunityBot.Application.Activities;
+﻿using CommunityBot.Application.Activities.Interfaces;
 using CommunityBot.Application.Common.Persistence;
 using CommunityBot.Application.Economy;
 using CommunityBot.Application.Items;
@@ -67,5 +67,7 @@ public static partial class ServicesConfiguration
         services.AddScoped<IActivityCaptureGateRepository, ActivityCaptureGateRepository>();
         services.AddScoped<IActivitySubscriptionRepository, ActivitySubscriptionRepository>();
         services.AddScoped<IActivityConsumptionRepository, ActivityConsumptionRepository>();
+        services.AddScoped<IActivityCaptureIncidentRepository, ActivityCaptureIncidentRepository>();
+        services.AddScoped<IActivityReconciliationRepository, ActivityReconciliationRepository>();
     }
 }

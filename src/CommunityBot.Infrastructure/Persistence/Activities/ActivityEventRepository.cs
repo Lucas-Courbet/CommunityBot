@@ -1,4 +1,4 @@
-﻿using CommunityBot.Application.Activities;
+﻿using CommunityBot.Application.Activities.Interfaces;
 using CommunityBot.Core.Activities;
 
 namespace CommunityBot.Infrastructure.Persistence.Activities;
