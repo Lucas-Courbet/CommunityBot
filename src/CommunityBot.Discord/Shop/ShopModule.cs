@@ -1,10 +1,8 @@
 ﻿using CommunityBot.Discord.Interactions;
-using CommunityBot.Discord.Models;
-using CommunityBot.Discord.Shop;
 using Microsoft.Extensions.Logging;
 using NetCord.Services.ApplicationCommands;
 
-namespace CommunityBot.Discord.Modules;
+namespace CommunityBot.Discord.Shop;
 
 /// <summary>
 /// Provides the Discord entry point for the interactive shop.

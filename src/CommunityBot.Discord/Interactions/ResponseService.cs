@@ -1,5 +1,4 @@
-﻿using CommunityBot.Discord.Models;
-using CommunityBot.Discord.Rendering;
+﻿using CommunityBot.Discord.Rendering;
 using NetCord;
 using NetCord.Rest;
 

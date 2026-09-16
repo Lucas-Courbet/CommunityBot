@@ -1,6 +1,6 @@
 ﻿using NetCord.Rest;
 
-namespace CommunityBot.Discord.Models;
+namespace CommunityBot.Discord.Interactions;
 
 /// <summary>
 /// Describes a Discord interaction response independently of the command handling code.

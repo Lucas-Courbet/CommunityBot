@@ -1,5 +1,5 @@
 ﻿using CommunityBot.Application.Shop;
-using CommunityBot.Discord.Models;
+using CommunityBot.Discord.Interactions;
 
 namespace CommunityBot.Discord.Shop;
 

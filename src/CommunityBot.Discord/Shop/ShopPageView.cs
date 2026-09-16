@@ -1,6 +1,6 @@
 ﻿using NetCord.Rest;
 
-namespace CommunityBot.Discord.Models;
+namespace CommunityBot.Discord.Shop;
 
 public sealed class ShopPageView
 {

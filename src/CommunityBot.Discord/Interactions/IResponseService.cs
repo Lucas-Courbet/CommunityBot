@@ -1,5 +1,4 @@
-﻿using CommunityBot.Discord.Models;
-using NetCord;
+﻿using NetCord;
 
 namespace CommunityBot.Discord.Interactions;
 

@@ -1,4 +1,4 @@
-﻿using CommunityBot.Discord.Modules;
+﻿using CommunityBot.Discord.Interactions;
 using CommunityBot.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;

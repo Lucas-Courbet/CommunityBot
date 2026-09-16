@@ -1,6 +1,6 @@
 ﻿using CommunityBot.Application.Shop;
 using CommunityBot.Core.Items;
-using CommunityBot.Discord.Models;
+using CommunityBot.Discord.Interactions;
 using CommunityBot.Discord.Pagination;
 using CommunityBot.Discord.Rendering;
 using NetCord;

@@ -2,13 +2,12 @@
 using CommunityBot.Core.Items;
 using CommunityBot.Discord.Interactions;
 using CommunityBot.Discord.Pagination;
-using CommunityBot.Discord.Shop;
 using Microsoft.Extensions.Logging;
 using NetCord;
 using NetCord.Rest;
 using NetCord.Services.ComponentInteractions;
 
-namespace CommunityBot.Discord.Modules;
+namespace CommunityBot.Discord.Shop;
 
 public sealed class ShopInteractionModule(
     IPaginationDispatcher paginationDispatcher,

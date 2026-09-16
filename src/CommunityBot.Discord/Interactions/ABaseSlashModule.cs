@@ -1,9 +1,8 @@
 ﻿using System.Diagnostics;
-using CommunityBot.Discord.Interactions;
 using Microsoft.Extensions.Logging;
 using NetCord.Services.ApplicationCommands;
 
-namespace CommunityBot.Discord.Modules;
+namespace CommunityBot.Discord.Interactions;
 
 /// <summary>
 /// Base class for application command modules.

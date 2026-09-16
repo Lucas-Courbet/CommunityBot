@@ -1,10 +1,9 @@
 ﻿using CommunityBot.Discord.Interactions;
-using CommunityBot.Discord.Pagination;
 using Microsoft.Extensions.Logging;
 using NetCord.Rest;
 using NetCord.Services.ComponentInteractions;
 
-namespace CommunityBot.Discord.Modules;
+namespace CommunityBot.Discord.Pagination;
 
 public sealed class PaginationInteractionModule(
     IPaginationDispatcher paginationDispatcher,
