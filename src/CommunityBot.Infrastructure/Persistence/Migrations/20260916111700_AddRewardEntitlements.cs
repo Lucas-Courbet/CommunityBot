@@ -41,7 +41,7 @@ namespace CommunityBot.Infrastructure.Persistence.Migrations
                         column: x => x.member_id,
                         principalTable: "members",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(

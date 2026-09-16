@@ -4,23 +4,20 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace CommunityBot.Infrastructure.Persistence.Rewards;
 
-public sealed class RewardEntitlementConfiguration
-    : IEntityTypeConfiguration<RewardEntitlement>
+public sealed class RewardEntitlementConfiguration : IEntityTypeConfiguration<RewardEntitlement>
 {
     public void Configure(EntityTypeBuilder<RewardEntitlement> builder)
     {
-        builder.ToTable(
-            "reward_entitlements",
-            table =>
-            {
-                table.HasCheckConstraint(
-                    "CK_reward_entitlements_quantity_positive",
-                    "quantity > 0");
+        builder.ToTable("reward_entitlements", table =>
+        {
+            table.HasCheckConstraint(
+                "CK_reward_entitlements_quantity_positive",
+                "quantity > 0");
 
-                table.HasCheckConstraint(
-                    "CK_reward_entitlements_attempt_count_non_negative",
-                    "attempt_count >= 0");
-            });
+            table.HasCheckConstraint(
+                "CK_reward_entitlements_attempt_count_non_negative",
+                "attempt_count >= 0");
+        });
 
         builder.HasKey(entitlement => entitlement.Id);
 
@@ -50,7 +47,7 @@ public sealed class RewardEntitlementConfiguration
         builder.HasOne(entitlement => entitlement.Member)
             .WithMany(member => member.RewardEntitlements)
             .HasForeignKey(entitlement => entitlement.MemberId)
-            .OnDelete(DeleteBehavior.Cascade);
+            .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasIndex(entitlement => entitlement.MemberId);
         builder.HasIndex(entitlement => entitlement.SourceReference);

@@ -388,7 +388,7 @@ namespace CommunityBot.Infrastructure.Persistence.Migrations
                     b.HasOne("CommunityBot.Core.Members.Member", "Member")
                         .WithMany("RewardEntitlements")
                         .HasForeignKey("MemberId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
                         .HasConstraintName("fk_reward_entitlements_members_member_id");
 
