@@ -34,6 +34,8 @@ namespace CommunityBot.Infrastructure.Persistence.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("pk_reward_entitlements", x => x.id);
+                    table.CheckConstraint("CK_reward_entitlements_attempt_count_non_negative", "attempt_count >= 0");
+                    table.CheckConstraint("CK_reward_entitlements_quantity_positive", "quantity > 0");
                     table.ForeignKey(
                         name: "fk_reward_entitlements_members_member_id",
                         column: x => x.member_id,

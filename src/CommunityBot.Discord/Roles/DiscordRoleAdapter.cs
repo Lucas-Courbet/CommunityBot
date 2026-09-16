@@ -23,7 +23,11 @@ public sealed class DiscordRoleAdapter(
 
             return member.RoleIds.Contains(roleId);
         }
-        catch (RestException ex) when (ex.StatusCode == HttpStatusCode.NotFound)
+        catch (OperationCanceledException) when (ct.IsCancellationRequested)
+        {
+            throw;
+        }
+        catch
         {
             return false;
         }
@@ -43,6 +47,10 @@ public sealed class DiscordRoleAdapter(
                 cancellationToken: ct);
 
             return null;
+        }
+        catch (OperationCanceledException) when (ct.IsCancellationRequested)
+        {
+            throw;
         }
         catch (RestException ex) when (ex.StatusCode == HttpStatusCode.Forbidden)
         {

@@ -9,7 +9,18 @@ public sealed class RewardEntitlementConfiguration
 {
     public void Configure(EntityTypeBuilder<RewardEntitlement> builder)
     {
-        builder.ToTable("reward_entitlements");
+        builder.ToTable(
+            "reward_entitlements",
+            table =>
+            {
+                table.HasCheckConstraint(
+                    "CK_reward_entitlements_quantity_positive",
+                    "quantity > 0");
+
+                table.HasCheckConstraint(
+                    "CK_reward_entitlements_attempt_count_non_negative",
+                    "attempt_count >= 0");
+            });
 
         builder.HasKey(entitlement => entitlement.Id);
 

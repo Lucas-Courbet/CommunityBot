@@ -330,7 +330,12 @@ namespace CommunityBot.Infrastructure.Persistence.Migrations
                     b.HasIndex("SourceReference")
                         .HasDatabaseName("ix_reward_entitlements_source_reference");
 
-                    b.ToTable("reward_entitlements", (string)null);
+                    b.ToTable("reward_entitlements", null, t =>
+                        {
+                            t.HasCheckConstraint("CK_reward_entitlements_attempt_count_non_negative", "attempt_count >= 0");
+
+                            t.HasCheckConstraint("CK_reward_entitlements_quantity_positive", "quantity > 0");
+                        });
                 });
 
             modelBuilder.Entity("CommunityBot.Core.Economy.Transaction", b =>
