@@ -36,8 +36,7 @@ namespace CommunityBot.Infrastructure.Persistence.Migrations
                     occurrence_count = table.Column<int>(type: "integer", nullable: false),
                     captured_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     contract_version = table.Column<int>(type: "integer", nullable: false),
-                    source_reference = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: true),
-                    member_id1 = table.Column<long>(type: "bigint", nullable: true)
+                    source_reference = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -58,11 +57,6 @@ namespace CommunityBot.Infrastructure.Persistence.Migrations
                         principalTable: "members",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "fk_activity_events_members_member_id1",
-                        column: x => x.member_id1,
-                        principalTable: "members",
-                        principalColumn: "id");
                 });
 
             migrationBuilder.CreateTable(
@@ -157,11 +151,6 @@ namespace CommunityBot.Infrastructure.Persistence.Migrations
                 name: "ix_activity_events_member_id",
                 table: "activity_events",
                 column: "member_id");
-
-            migrationBuilder.CreateIndex(
-                name: "ix_activity_events_member_id1",
-                table: "activity_events",
-                column: "member_id1");
 
             migrationBuilder.CreateIndex(
                 name: "ux_activity_events_event_id",

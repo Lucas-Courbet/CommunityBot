@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CommunityBot.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260916124954_AddDurableActivities")]
+    [Migration("20260916125215_AddDurableActivities")]
     partial class AddDurableActivities
     {
         /// <inheritdoc />
@@ -146,10 +146,6 @@ namespace CommunityBot.Infrastructure.Persistence.Migrations
                         .HasColumnType("bigint")
                         .HasColumnName("member_id");
 
-                    b.Property<long?>("MemberId1")
-                        .HasColumnType("bigint")
-                        .HasColumnName("member_id1");
-
                     b.Property<DateTime>("OccurredAt")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("occurred_at");
@@ -175,9 +171,6 @@ namespace CommunityBot.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("MemberId")
                         .HasDatabaseName("ix_activity_events_member_id");
-
-                    b.HasIndex("MemberId1")
-                        .HasDatabaseName("ix_activity_events_member_id1");
 
                     b.ToTable("activity_events", null, t =>
                         {
@@ -598,17 +591,12 @@ namespace CommunityBot.Infrastructure.Persistence.Migrations
                         .IsRequired()
                         .HasConstraintName("fk_activity_events_activity_capture_gates_event_type");
 
-                    b.HasOne("CommunityBot.Core.Members.Member", null)
+                    b.HasOne("CommunityBot.Core.Members.Member", "Member")
                         .WithMany()
                         .HasForeignKey("MemberId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
                         .HasConstraintName("fk_activity_events_members_member_id");
-
-                    b.HasOne("CommunityBot.Core.Members.Member", "Member")
-                        .WithMany()
-                        .HasForeignKey("MemberId1")
-                        .HasConstraintName("fk_activity_events_members_member_id1");
 
                     b.Navigation("Member");
                 });

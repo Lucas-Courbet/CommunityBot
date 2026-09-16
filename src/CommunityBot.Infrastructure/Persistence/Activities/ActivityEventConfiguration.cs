@@ -1,5 +1,4 @@
 ﻿using CommunityBot.Core.Activities;
-using CommunityBot.Core.Members;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -39,14 +38,32 @@ public sealed class ActivityEventConfiguration : IEntityTypeConfiguration<Activi
             .HasForeignKey(activityEvent => activityEvent.EventType)
             .OnDelete(DeleteBehavior.Restrict);
 
-        builder.HasOne<Member>()
+        builder.HasOne(activityEvent => activityEvent.Member)
             .WithMany()
             .HasForeignKey(activityEvent => activityEvent.MemberId)
             .OnDelete(DeleteBehavior.Restrict);
 
+        builder.Property(activityEvent => activityEvent.EventId)
+            .IsRequired();
+
         builder.Property(activityEvent => activityEvent.EventType)
             .HasConversion<string>()
             .HasMaxLength(100)
+            .IsRequired();
+
+        builder.Property(activityEvent => activityEvent.MemberId)
+            .IsRequired();
+
+        builder.Property(activityEvent => activityEvent.OccurredAt)
+            .IsRequired();
+
+        builder.Property(activityEvent => activityEvent.OccurrenceCount)
+            .IsRequired();
+
+        builder.Property(activityEvent => activityEvent.CapturedAt)
+            .IsRequired();
+
+        builder.Property(activityEvent => activityEvent.ContractVersion)
             .IsRequired();
 
         builder.Property(activityEvent => activityEvent.SourceReference)
