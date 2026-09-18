@@ -22,11 +22,11 @@ public sealed class ActivitySubscriptionConfiguration : IEntityTypeConfiguration
         builder.HasKey(subscription => subscription.Id);
 
         builder.HasIndex(subscription => new
-            {
-                subscription.ConsumerType,
-                subscription.ContextReference,
-                subscription.EventType
-            })
+        {
+            subscription.ConsumerType,
+            subscription.ContextReference,
+            subscription.EventType
+        })
             .IsUnique()
             .HasDatabaseName("ux_activity_subscriptions_consumer_context_event_type");
 

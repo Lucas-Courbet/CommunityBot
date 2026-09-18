@@ -6,5 +6,5 @@ namespace CommunityBot.Infrastructure.Persistence.Items;
 public class ItemRepository(AppDbContext context)
     : ABaseRepository<Item, string>(context), IItemRepository
 {
-    
+
 }

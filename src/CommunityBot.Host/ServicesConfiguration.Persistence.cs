@@ -30,7 +30,7 @@ public static partial class ServicesConfiguration
         IServiceCollection services,
         IConfiguration configuration)
     {
-        var connectionString = configuration.GetConnectionString("Default") 
+        var connectionString = configuration.GetConnectionString("Default")
                                ?? throw new InvalidOperationException(
                                    "Connection string 'Default' is missing in configuration.");
 
@@ -45,29 +45,29 @@ public static partial class ServicesConfiguration
             options.AddInterceptors(
                 provider.GetRequiredService<AuditInterceptor>());
         });
-        
+
         services.AddScoped<IPersistenceContext>(
             provider => provider.GetRequiredService<AppDbContext>());
-        
+
         // Seeders
         services.AddScoped<ShopCatalogSeeder>();
 
         // Repositories
-        
+
         // Members
         services.AddScoped<IMemberRepository, MemberRepository>();
 
         // Economy
         services.AddScoped<ITransactionRepository, TransactionRepository>();
-        
+
         // Items
         services.AddScoped<IItemRepository, ItemRepository>();
         services.AddScoped<IShopItemRepository, ShopItemRepository>();
         services.AddScoped<IInventoryRepository, InventoryRepository>();
-        
+
         // Rewards
         services.AddScoped<IRewardEntitlementRepository, RewardEntitlementRepository>();
-        
+
         // Activities
         services.AddScoped<IActivityEventRepository, ActivityEventRepository>();
         services.AddScoped<IActivityCaptureGateRepository, ActivityCaptureGateRepository>();
@@ -75,7 +75,7 @@ public static partial class ServicesConfiguration
         services.AddScoped<IActivityConsumptionRepository, ActivityConsumptionRepository>();
         services.AddScoped<IActivityCaptureIncidentRepository, ActivityCaptureIncidentRepository>();
         services.AddScoped<IActivityReconciliationRepository, ActivityReconciliationRepository>();
-        
+
         // Goals
         services.AddScoped<ICommunityGoalRepository, CommunityGoalRepository>();
     }

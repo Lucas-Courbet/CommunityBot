@@ -56,15 +56,15 @@ public sealed class Member : IEntity<ulong>, IAuditable
     /// <summary>
     /// Financial transactions associated with the member.
     /// </summary>
-    public ICollection<Transaction> Transactions { get; private set; } 
+    public ICollection<Transaction> Transactions { get; private set; }
         = new List<Transaction>();
-    
+
     /// <summary>
     /// Inventory entries owned by the member.
     /// </summary>
-    public ICollection<InventoryItem> Inventory { get; private set; } 
+    public ICollection<InventoryItem> Inventory { get; private set; }
         = new List<InventoryItem>();
-    
+
     public ICollection<RewardEntitlement> RewardEntitlements { get; private set; }
         = new List<RewardEntitlement>();
 

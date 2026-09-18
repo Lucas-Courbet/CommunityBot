@@ -65,7 +65,7 @@ public sealed class Transaction : IEntity<long>, IAuditable
             Type = type,
             Reason = reason
         };
-    
+
     /// <summary>
     /// Creates the financial record associated with a shop purchase.
     /// </summary>

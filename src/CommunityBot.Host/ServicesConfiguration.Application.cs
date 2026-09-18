@@ -34,7 +34,7 @@ public static partial class ServicesConfiguration
         services.AddScoped<IRewardDeliveryService, RewardDeliveryService>();
         services.AddScoped<IRewardDeliveryHandler, CurrencyRewardDeliveryHandler>();
         services.AddScoped<IRewardDeliveryHandler, ItemRewardDeliveryHandler>();
-        
+
         // Goals
         services.AddScoped<ICommunityGoalService, CommunityGoalService>();
         services.AddScoped<IActivityConsumer, CommunityGoalActivityConsumer>();

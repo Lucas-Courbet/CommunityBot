@@ -34,7 +34,7 @@ public sealed class AppDbContext(
     public DbSet<ActivityConsumption> ActivityConsumptions => Set<ActivityConsumption>();
     public DbSet<ActivityCaptureIncident> ActivityCaptureIncidents => Set<ActivityCaptureIncident>();
     public DbSet<ActivityReconciliation> ActivityReconciliations => Set<ActivityReconciliation>();
-    
+
     public DbSet<CommunityGoal> CommunityGoals => Set<CommunityGoal>();
 
     protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)

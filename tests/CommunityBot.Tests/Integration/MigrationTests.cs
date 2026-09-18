@@ -13,7 +13,7 @@ public sealed class MigrationTests(
         var appliedMigrations = await Context.Database
             .GetAppliedMigrationsAsync();
 
-        Assert.Contains(appliedMigrations, 
+        Assert.Contains(appliedMigrations,
             migration => migration.EndsWith(
                 "_InitialCreate",
                 StringComparison.Ordinal));

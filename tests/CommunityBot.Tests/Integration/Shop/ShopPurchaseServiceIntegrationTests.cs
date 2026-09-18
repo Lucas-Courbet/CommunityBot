@@ -299,7 +299,7 @@ public sealed class ShopPurchaseServiceIntegrationTests(PostgreSqlIntegrationFix
             Category = category,
             IsEnabled = isEnabled
         };
-    
+
     private sealed class NoOpActivityCaptureService : IActivityCaptureService
     {
         public Task<ActivityCaptureResult> CaptureAsync(

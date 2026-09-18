@@ -12,7 +12,7 @@ public sealed class MemberRepository(AppDbContext context)
 {
     /// <inheritdoc />
     public async Task<Member?> GetByUsernameAsync(
-        string username, 
+        string username,
         CancellationToken ct = default)
         => await DbSet
             .AsNoTracking()
@@ -20,7 +20,7 @@ public sealed class MemberRepository(AppDbContext context)
 
     /// <inheritdoc />
     public async Task<Member?> GetByIdForUpdateAsync(
-        ulong memberId, 
+        ulong memberId,
         CancellationToken ct = default)
     {
         var persistedMemberId = checked((long)memberId);

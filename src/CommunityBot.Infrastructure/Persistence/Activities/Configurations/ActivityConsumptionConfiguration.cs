@@ -18,18 +18,18 @@ public sealed class ActivityConsumptionConfiguration : IEntityTypeConfiguration<
         builder.HasKey(consumption => consumption.Id);
 
         builder.HasIndex(consumption => new
-            {
-                consumption.ActivityEventId,
-                consumption.SubscriptionId
-            })
+        {
+            consumption.ActivityEventId,
+            consumption.SubscriptionId
+        })
             .IsUnique()
             .HasDatabaseName("ux_activity_consumptions_event_subscription");
 
         builder.HasIndex(consumption => new
-            {
-                consumption.CreatedAt,
-                consumption.Id
-            })
+        {
+            consumption.CreatedAt,
+            consumption.Id
+        })
             .HasFilter("status = 'Pending'")
             .HasDatabaseName("ix_activity_consumptions_pending_queue");
 

@@ -28,7 +28,7 @@ public sealed class RewardEntitlementRepository(AppDbContext context)
             .Where(entitlement => entitlement.Id == entitlementId)
             .Select(entitlement => (RewardType?)entitlement.RewardType)
             .SingleOrDefaultAsync(ct);
-    
+
     public Task<RewardDeliverySnapshot?> GetDeliverySnapshotAsync(
         long entitlementId,
         CancellationToken ct = default)
