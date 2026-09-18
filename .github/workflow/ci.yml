@@ -1,0 +1,66 @@
+﻿name: CI
+
+on:
+  push:
+    branches:
+      - main
+
+  pull_request:
+    branches:
+      - main
+
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Build and test
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: latest
+          dotnet-channel: "10.0"
+
+      - name: Restore
+        run: dotnet restore CommunityBot.slnx
+
+      - name: Build
+        run: dotnet build CommunityBot.slnx --configuration Release --no-restore
+
+      - name: Test
+        run: >
+          dotnet test
+          tests/CommunityBot.Tests/CommunityBot.Tests.csproj
+          --configuration Release
+          --no-build
+          --verbosity normal
+
+  docker:
+    name: Build Docker image
+    runs-on: ubuntu-latest
+    needs: test
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Build image
+        run: >
+          docker build
+          --file src/CommunityBot.Host/Dockerfile
+          --tag communitybot:ci
+          .
