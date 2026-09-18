@@ -17,10 +17,6 @@ public sealed class ShopPurchaseStore(
     IShopItemRepository shopItemRepository,
     ITransactionRepository transactionRepository)
 {
-    /// <summary>
-    /// Loads the persistent state required to evaluate a purchase.
-    /// The member row is locked for the caller-owned transaction.
-    /// </summary>
     public async Task<(Member? Member, ShopItem? ShopItem)> LoadPurchaseContextAsync(
         ulong memberId,
         string itemId,
@@ -32,15 +28,15 @@ public sealed class ShopPurchaseStore(
         return (member, shopItem);
     }
 
-    /// <summary>
-    /// Registers the financial transaction associated with a shop purchase.
-    /// </summary>
-    public void AddPurchaseTransaction(Member member, ShopItem shopItem)
+    public Transaction AddPurchaseTransaction(Member member, ShopItem shopItem)
     {
-        transactionRepository.Add(
-            Transaction.CreateShopPurchase(
-                member.Id,
-                shopItem.Price,
-                shopItem.Item.Label));
+        var transaction = Transaction.CreateShopPurchase(
+            member.Id,
+            shopItem.Price,
+            shopItem.Item.Label);
+
+        transactionRepository.Add(transaction);
+
+        return transaction;
     }
 }

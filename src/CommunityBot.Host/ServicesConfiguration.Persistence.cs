@@ -1,12 +1,14 @@
 ﻿using CommunityBot.Application.Activities.Interfaces;
 using CommunityBot.Application.Common.Persistence;
 using CommunityBot.Application.Economy;
+using CommunityBot.Application.Goals;
 using CommunityBot.Application.Items;
 using CommunityBot.Application.Members;
 using CommunityBot.Application.Rewards;
 using CommunityBot.Infrastructure.Persistence;
 using CommunityBot.Infrastructure.Persistence.Activities;
 using CommunityBot.Infrastructure.Persistence.Economy;
+using CommunityBot.Infrastructure.Persistence.Goals;
 using CommunityBot.Infrastructure.Persistence.Interceptors;
 using CommunityBot.Infrastructure.Persistence.Items;
 using CommunityBot.Infrastructure.Persistence.Members;
@@ -69,5 +71,8 @@ public static partial class ServicesConfiguration
         services.AddScoped<IActivityConsumptionRepository, ActivityConsumptionRepository>();
         services.AddScoped<IActivityCaptureIncidentRepository, ActivityCaptureIncidentRepository>();
         services.AddScoped<IActivityReconciliationRepository, ActivityReconciliationRepository>();
+        
+        // Goals
+        services.AddScoped<ICommunityGoalRepository, CommunityGoalRepository>();
     }
 }

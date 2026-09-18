@@ -1,4 +1,6 @@
-﻿using CommunityBot.Application.Items;
+﻿using CommunityBot.Application.Activities;
+using CommunityBot.Application.Activities.Interfaces;
+using CommunityBot.Application.Items;
 using CommunityBot.Application.Members;
 using CommunityBot.Application.Shop;
 using CommunityBot.Core.Economy;
@@ -246,9 +248,11 @@ public sealed class ShopPurchaseServiceIntegrationTests(PostgreSqlIntegrationFix
 
     private static IShopPurchaseService CreateShopPurchaseService(
         AppDbContext context,
-        IMemberRepository? memberRepository = null)
+        IMemberRepository? memberRepository = null,
+        IActivityCaptureService? activityCaptureService = null)
     {
         memberRepository ??= new MemberRepository(context);
+        activityCaptureService ??= new NoOpActivityCaptureService();
 
         return new ShopPurchaseService(
             new ShopPurchaseStore(
@@ -259,6 +263,7 @@ public sealed class ShopPurchaseServiceIntegrationTests(PostgreSqlIntegrationFix
             new ItemAcquisitionService(
                 new ItemRepository(context),
                 new InventoryRepository(context)),
+            activityCaptureService,
             NullLogger<ShopPurchaseService>.Instance);
     }
 
@@ -294,4 +299,15 @@ public sealed class ShopPurchaseServiceIntegrationTests(PostgreSqlIntegrationFix
             Category = category,
             IsEnabled = isEnabled
         };
+    
+    private sealed class NoOpActivityCaptureService : IActivityCaptureService
+    {
+        public Task<ActivityCaptureResult> CaptureAsync(
+            ActivityEventCandidate candidate,
+            CancellationToken ct = default)
+            => Task.FromResult(
+                new ActivityCaptureResult(
+                    ActivityCaptureStatus.NotCaptured,
+                    null));
+    }
 }

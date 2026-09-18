@@ -1,5 +1,9 @@
-﻿using CommunityBot.Application.Common.Persistence;
+﻿using CommunityBot.Application.Activities;
+using CommunityBot.Application.Activities.Interfaces;
+using CommunityBot.Application.Common.Persistence;
 using CommunityBot.Application.Items;
+using CommunityBot.Core.Activities;
+using CommunityBot.Core.Economy;
 using CommunityBot.Core.Items;
 using CommunityBot.Core.Members;
 using Microsoft.Extensions.Logging;
@@ -13,6 +17,7 @@ public sealed class ShopPurchaseService(
     ShopPurchaseStore store,
     IPersistenceContext persistenceContext,
     IItemAcquisitionService itemAcquisitionService,
+    IActivityCaptureService activityCaptureService,
     ILogger<ShopPurchaseService> logger)
     : IShopPurchaseService
 {
@@ -33,7 +38,14 @@ public sealed class ShopPurchaseService(
             if (processing is not PurchaseProcessingResult.Completed completed)
                 throw new InvalidOperationException("Unsupported shop purchase processing result.");
 
+            /*
+             * Source-owned changes are deliberately flushed before activity capture.
+             * ActivityCaptureService then operates in its own savepoint while the
+             * purchase transaction remains caller-owned and uncommitted.
+             */
             await persistenceContext.SaveChangesAsync(ct);
+
+            await CapturePurchaseActivityAsync(completed, ct);
 
             var result = BuildSuccessResult(completed);
 
@@ -78,7 +90,11 @@ public sealed class ShopPurchaseService(
         if (ValidateBasicRequirements(member, shopItem) is { } error)
             return new PurchaseProcessingResult.Rejected(error);
 
-        var acquisition = await itemAcquisitionService.AcquireAsync(member!.Id, shopItem!.Id, 1, ct);
+        var acquisition = await itemAcquisitionService.AcquireAsync(
+            member!.Id,
+            shopItem!.Id,
+            1,
+            ct);
 
         if (acquisition.Status == ItemAcquisitionStatus.AlreadyOwned)
         {
@@ -88,19 +104,33 @@ public sealed class ShopPurchaseService(
                     "This unique item is already owned."));
         }
 
-        ApplyPurchase(member, shopItem);
+        var purchaseTransaction = ApplyPurchase(member, shopItem);
 
         return new PurchaseProcessingResult.Completed(
             member,
             shopItem,
-            acquisition.InventoryItem);
+            acquisition.InventoryItem,
+            purchaseTransaction);
     }
 
-    private void ApplyPurchase(Member member, ShopItem shopItem)
+    private Transaction ApplyPurchase(Member member, ShopItem shopItem)
     {
         member.DebitCurrency(shopItem.Price);
-        store.AddPurchaseTransaction(member, shopItem);
+
+        return store.AddPurchaseTransaction(member, shopItem);
     }
+
+    private Task<ActivityCaptureResult> CapturePurchaseActivityAsync(
+        PurchaseProcessingResult.Completed purchase,
+        CancellationToken ct)
+        => activityCaptureService.CaptureAsync(
+            new ActivityEventCandidate(
+                ActivityEventType.ShopPurchaseCompleted,
+                purchase.Member.Id,
+                DateTime.UtcNow,
+                1,
+                $"shop-purchase:{purchase.PurchaseTransaction.Id}"),
+            ct);
 
     private static PurchaseResult? ValidateBasicRequirements(Member? member, ShopItem? shopItem)
     {
@@ -150,7 +180,8 @@ public sealed class ShopPurchaseService(
         public sealed record Completed(
             Member Member,
             ShopItem ShopItem,
-            InventoryItem InventoryItem)
+            InventoryItem InventoryItem,
+            Transaction PurchaseTransaction)
             : PurchaseProcessingResult;
     }
 }

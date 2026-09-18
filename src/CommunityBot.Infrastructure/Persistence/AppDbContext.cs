@@ -1,6 +1,7 @@
 ﻿using CommunityBot.Application.Common.Persistence;
 using CommunityBot.Core.Activities;
 using CommunityBot.Core.Economy;
+using CommunityBot.Core.Goals;
 using CommunityBot.Core.Items;
 using CommunityBot.Core.Members;
 using CommunityBot.Core.Rewards;
@@ -33,6 +34,8 @@ public sealed class AppDbContext(
     public DbSet<ActivityConsumption> ActivityConsumptions => Set<ActivityConsumption>();
     public DbSet<ActivityCaptureIncident> ActivityCaptureIncidents => Set<ActivityCaptureIncident>();
     public DbSet<ActivityReconciliation> ActivityReconciliations => Set<ActivityReconciliation>();
+    
+    public DbSet<CommunityGoal> CommunityGoals => Set<CommunityGoal>();
 
     protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
     {

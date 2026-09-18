@@ -1,4 +1,6 @@
-﻿using CommunityBot.Application.Economy;
+﻿using CommunityBot.Application.Activities.Interfaces;
+using CommunityBot.Application.Economy;
+using CommunityBot.Application.Goals;
 using CommunityBot.Application.Items;
 using CommunityBot.Application.Members;
 using CommunityBot.Application.Rewards;
@@ -32,5 +34,9 @@ public static partial class ServicesConfiguration
         services.AddScoped<IRewardDeliveryService, RewardDeliveryService>();
         services.AddScoped<IRewardDeliveryHandler, CurrencyRewardDeliveryHandler>();
         services.AddScoped<IRewardDeliveryHandler, ItemRewardDeliveryHandler>();
+        
+        // Goals
+        services.AddScoped<ICommunityGoalService, CommunityGoalService>();
+        services.AddScoped<IActivityConsumer, CommunityGoalActivityConsumer>();
     }
 }
