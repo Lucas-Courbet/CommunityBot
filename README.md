@@ -4,8 +4,6 @@
 
 CommunityBot is a **.NET 10 / PostgreSQL Discord application** built as a public engineering showcase.
 
-It is a deliberately reduced and domain-neutral adaptation of a larger private application that I build and maintain. The public repository keeps representative production patterns while removing private business concepts, configuration and data.
-
 ## Scope
 
 CommunityBot is a deliberately reduced and domain-neutral public adaptation of a larger private application that I build and maintain.
