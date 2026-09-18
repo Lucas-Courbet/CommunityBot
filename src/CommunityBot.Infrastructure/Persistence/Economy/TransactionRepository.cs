@@ -1,6 +1,5 @@
 ﻿using CommunityBot.Application.Economy;
 using CommunityBot.Core.Economy;
-using CommunityBot.Infrastructure.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace CommunityBot.Infrastructure.Persistence.Economy;

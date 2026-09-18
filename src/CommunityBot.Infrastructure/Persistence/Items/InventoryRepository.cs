@@ -1,6 +1,5 @@
 ﻿using CommunityBot.Application.Items;
 using CommunityBot.Core.Items;
-using CommunityBot.Infrastructure.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace CommunityBot.Infrastructure.Persistence.Items;

@@ -1,6 +1,5 @@
 ﻿using CommunityBot.Application.Members;
 using CommunityBot.Core.Members;
-using CommunityBot.Infrastructure.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace CommunityBot.Infrastructure.Persistence.Members;

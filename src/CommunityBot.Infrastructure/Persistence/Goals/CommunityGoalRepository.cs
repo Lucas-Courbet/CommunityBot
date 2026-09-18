@@ -1,6 +1,5 @@
 ﻿using CommunityBot.Application.Goals;
 using CommunityBot.Core.Goals;
-using CommunityBot.Infrastructure.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace CommunityBot.Infrastructure.Persistence.Goals;

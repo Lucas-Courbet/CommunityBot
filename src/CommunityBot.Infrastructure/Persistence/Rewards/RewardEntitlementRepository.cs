@@ -1,6 +1,5 @@
 ﻿using CommunityBot.Application.Rewards;
 using CommunityBot.Core.Rewards;
-using CommunityBot.Infrastructure.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace CommunityBot.Infrastructure.Persistence.Rewards;

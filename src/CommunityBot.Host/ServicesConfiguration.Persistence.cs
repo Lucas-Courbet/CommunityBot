@@ -13,6 +13,7 @@ using CommunityBot.Infrastructure.Persistence.Interceptors;
 using CommunityBot.Infrastructure.Persistence.Items;
 using CommunityBot.Infrastructure.Persistence.Members;
 using CommunityBot.Infrastructure.Persistence.Rewards;
+using CommunityBot.Infrastructure.Persistence.Seeders;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -47,6 +48,9 @@ public static partial class ServicesConfiguration
         
         services.AddScoped<IPersistenceContext>(
             provider => provider.GetRequiredService<AppDbContext>());
+        
+        // Seeders
+        services.AddScoped<ShopCatalogSeeder>();
 
         // Repositories
         

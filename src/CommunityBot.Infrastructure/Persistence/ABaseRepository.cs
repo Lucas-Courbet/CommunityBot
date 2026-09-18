@@ -2,7 +2,7 @@
 using CommunityBot.Core.Common;
 using Microsoft.EntityFrameworkCore;
 
-namespace CommunityBot.Infrastructure.Persistence.Repositories;
+namespace CommunityBot.Infrastructure.Persistence;
 
 /// <summary>
 /// Entity Framework Core implementation of the common repository operations.

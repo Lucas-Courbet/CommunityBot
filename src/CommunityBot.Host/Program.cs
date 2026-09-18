@@ -1,5 +1,6 @@
 ﻿using CommunityBot.Discord.Interactions;
 using CommunityBot.Infrastructure.Persistence;
+using CommunityBot.Infrastructure.Persistence.Seeders;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -79,10 +80,19 @@ internal abstract class Program
             await context.Database.MigrateAsync();
 
             logger.LogInformation("Database migrations applied successfully.");
+            logger.LogInformation("Seeding synthetic application data...");
+
+            var shopCatalogSeeder = services.GetRequiredService<ShopCatalogSeeder>();
+            await shopCatalogSeeder.SeedAsync();
+
+            logger.LogInformation("Synthetic application data seeded successfully.");
         }
         catch (Exception ex)
         {
-            logger.LogCritical(ex, "An error occurred while initializing the database.");
+            logger.LogCritical(
+                ex,
+                "An error occurred while initializing the database.");
+
             throw;
         }
     }
