@@ -56,7 +56,10 @@ public sealed class PostgreSqlIntegrationFixture : IAsyncLifetime
                     SELECT tablename
                     FROM pg_tables
                     WHERE schemaname = 'public'
-                      AND tablename <> '__EFMigrationsHistory'
+                      AND tablename NOT IN (
+                          '__EFMigrationsHistory',
+                          'activity_capture_gates'
+                      )
                 LOOP
                     EXECUTE format(
                         'TRUNCATE TABLE %I RESTART IDENTITY CASCADE;',
