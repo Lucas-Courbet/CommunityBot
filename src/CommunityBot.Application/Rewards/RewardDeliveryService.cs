@@ -35,8 +35,7 @@ public sealed class RewardDeliveryService : IRewardDeliveryService
         CancellationToken ct = default)
     {
         var rewardType = await _rewardEntitlementRepository.GetRewardTypeByIdAsync(
-            entitlementId,
-            ct);
+            entitlementId, ct);
 
         if (rewardType is null)
             return RewardDeliveryResult.NotFound(entitlementId);

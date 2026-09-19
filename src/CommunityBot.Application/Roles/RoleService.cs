@@ -21,7 +21,6 @@ public sealed class RoleService(
             role.Id,
             ct);
 
-        return adapterError
-               ?? RoleOperationResult.Assigned(role.Key, role.Id);
+        return adapterError ?? RoleOperationResult.Assigned(role.Key, role.Id);
     }
 }

@@ -116,7 +116,6 @@ public sealed class ShopPurchaseService(
     private Transaction ApplyPurchase(Member member, ShopItem shopItem)
     {
         member.DebitCurrency(shopItem.Price);
-
         return store.AddPurchaseTransaction(member, shopItem);
     }
 

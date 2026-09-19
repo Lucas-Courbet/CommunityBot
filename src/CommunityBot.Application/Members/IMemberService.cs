@@ -12,35 +12,25 @@ public interface IMemberService
     /// Synchronizes a Discord identity with the application's persisted member state.
     /// A member may be created, reactivated, updated or left unchanged.
     /// </summary>
-    Task<MemberSynchronizationStatus> SynchronizeAsync(
-        MemberIdentity identity,
-        CancellationToken ct = default);
+    Task<MemberSynchronizationStatus> SynchronizeAsync(MemberIdentity identity, CancellationToken ct = default);
 
     /// <summary>
     /// Marks a member as inactive while retaining its persisted data.
     /// </summary>
-    Task<MemberDeactivationStatus> DeactivateAsync(
-        ulong id,
-        CancellationToken ct = default);
+    Task<MemberDeactivationStatus> DeactivateAsync(ulong id, CancellationToken ct = default);
 
     /// <summary>
     /// Retrieves a member by its Discord identifier.
     /// </summary>
-    Task<Member?> GetByIdAsync(
-        ulong id,
-        CancellationToken ct = default);
+    Task<Member?> GetByIdAsync(ulong id, CancellationToken ct = default);
 
     /// <summary>
     /// Retrieves a member by its exact Discord username.
     /// </summary>
-    Task<Member?> GetByUsernameAsync(
-        string username,
-        CancellationToken ct = default);
+    Task<Member?> GetByUsernameAsync(string username, CancellationToken ct = default);
 
     /// <summary>
     /// Determines whether a member is already tracked by the application.
     /// </summary>
-    Task<bool> ExistsAsync(
-        ulong id,
-        CancellationToken ct = default);
+    Task<bool> ExistsAsync(ulong id, CancellationToken ct = default);
 }

@@ -89,8 +89,7 @@ internal abstract class Program
         }
         catch (Exception ex)
         {
-            logger.LogCritical(
-                ex,
+            logger.LogCritical(ex, 
                 "An error occurred while initializing the database.");
 
             throw;

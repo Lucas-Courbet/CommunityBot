@@ -5,7 +5,5 @@
 /// </summary>
 public interface IActivityCaptureService
 {
-    Task<ActivityCaptureResult> CaptureAsync(
-        ActivityEventCandidate candidate,
-        CancellationToken ct = default);
+    Task<ActivityCaptureResult> CaptureAsync(ActivityEventCandidate candidate, CancellationToken ct = default);
 }

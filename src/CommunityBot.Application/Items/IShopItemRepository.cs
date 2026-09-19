@@ -10,7 +10,5 @@ public interface IShopItemRepository : IBaseRepository<ShopItem, string>
 {
     Task<ShopItem?> GetWithItemAsync(string itemId, CancellationToken ct = default);
 
-    Task<List<ShopItem>> GetActiveCatalogAsync(
-        ShopItemCategory? filterCategory,
-        CancellationToken ct = default);
+    Task<List<ShopItem>> GetActiveCatalogAsync(ShopItemCategory? filterCategory, CancellationToken ct = default);
 }

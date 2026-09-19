@@ -31,7 +31,6 @@ public sealed class ItemRewardDeliveryHandler(
         try
         {
             result = await ProcessDeliveryAsync(entitlementId, ct);
-
             await persistenceContext.SaveChangesAsync(ct);
             await transaction.CommitAsync(ct);
         }
@@ -60,8 +59,7 @@ public sealed class ItemRewardDeliveryHandler(
         CancellationToken ct)
     {
         var entitlement = await rewardEntitlementRepository.GetByIdForUpdateAsync(
-            entitlementId,
-            ct);
+            entitlementId, ct);
 
         if (entitlement is null)
             return RewardDeliveryResult.NotFound(entitlementId);
@@ -72,29 +70,21 @@ public sealed class ItemRewardDeliveryHandler(
         EnsureCompatibleEntitlement(entitlement);
 
         var item = await itemRepository.GetByIdAsync(
-            entitlement.RewardReference!,
-            ct);
+            entitlement.RewardReference!, ct);
 
         if (item is null)
             return RecordFailure(entitlement, "Reward item was not found.");
 
         if (item.GrantedRoleKey is not null)
-        {
-            return RecordFailure(
-                entitlement,
+            return RecordFailure(entitlement,
                 "Role-backed items cannot be delivered by the Item reward handler.");
-        }
 
         if (!item.IsStackable && entitlement.Quantity != 1)
-        {
-            return RecordFailure(
-                entitlement,
+            return RecordFailure(entitlement,
                 "Non-stackable reward items must have quantity 1.");
-        }
 
         var member = await memberRepository.GetByIdForUpdateAsync(
-            entitlement.MemberId,
-            ct);
+            entitlement.MemberId, ct);
 
         if (member is null)
             return RecordFailure(entitlement, "Reward beneficiary was not found.");

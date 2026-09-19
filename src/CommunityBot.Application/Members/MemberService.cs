@@ -24,7 +24,6 @@ public sealed class MemberService(
         if (member is null)
         {
             member = Member.Create(identity);
-
             memberRepository.Add(member);
             await memberRepository.SaveChangesAsync(ct);
 
@@ -39,7 +38,6 @@ public sealed class MemberService(
         if (!member.IsActive)
         {
             member.Reactivate(identity);
-
             await memberRepository.SaveChangesAsync(ct);
 
             logger.LogInformation(
@@ -51,9 +49,7 @@ public sealed class MemberService(
         }
 
         if (!member.SynchronizeIdentity(identity))
-        {
             return MemberSynchronizationStatus.Unchanged;
-        }
 
         await memberRepository.SaveChangesAsync(ct);
 
@@ -74,20 +70,16 @@ public sealed class MemberService(
 
         if (member is null)
         {
-            logger.LogWarning(
-                "Attempted to deactivate unknown member {MemberId}",
+            logger.LogWarning("Attempted to deactivate unknown member {MemberId}",
                 id);
 
             return MemberDeactivationStatus.NotFound;
         }
 
         if (!member.IsActive)
-        {
             return MemberDeactivationStatus.AlreadyInactive;
-        }
 
         member.Deactivate();
-
         await memberRepository.SaveChangesAsync(ct);
 
         logger.LogInformation(

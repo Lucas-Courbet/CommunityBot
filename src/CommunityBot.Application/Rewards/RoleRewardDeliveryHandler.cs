@@ -22,13 +22,10 @@ public sealed class RoleRewardDeliveryHandler(
 {
     public RewardType RewardType => RewardType.Role;
 
-    public async Task<RewardDeliveryResult> DeliverAsync(
-        long entitlementId,
-        CancellationToken ct = default)
+    public async Task<RewardDeliveryResult> DeliverAsync(long entitlementId, CancellationToken ct = default)
     {
         var snapshot = await rewardEntitlementRepository.GetDeliverySnapshotAsync(
-            entitlementId,
-            ct);
+            entitlementId, ct);
 
         if (snapshot is null)
             return RewardDeliveryResult.NotFound(entitlementId);
@@ -58,7 +55,6 @@ public sealed class RoleRewardDeliveryHandler(
         try
         {
             result = await ProcessFinalizationAsync(snapshot, roleResult, ct);
-
             await persistenceContext.SaveChangesAsync(ct);
             await transaction.CommitAsync(ct);
         }
@@ -88,8 +84,7 @@ public sealed class RoleRewardDeliveryHandler(
         CancellationToken ct)
     {
         var entitlement = await rewardEntitlementRepository.GetByIdForUpdateAsync(
-            snapshot.EntitlementId,
-            ct);
+            snapshot.EntitlementId, ct);
 
         if (entitlement is null)
         {

@@ -32,7 +32,6 @@ public sealed class CurrencyRewardDeliveryHandler(
         try
         {
             result = await ProcessDeliveryAsync(entitlementId, ct);
-
             await persistenceContext.SaveChangesAsync(ct);
             await transaction.CommitAsync(ct);
         }
@@ -61,8 +60,7 @@ public sealed class CurrencyRewardDeliveryHandler(
         CancellationToken ct)
     {
         var entitlement = await rewardEntitlementRepository.GetByIdForUpdateAsync(
-            entitlementId,
-            ct);
+            entitlementId, ct);
 
         if (entitlement is null)
             return RewardDeliveryResult.NotFound(entitlementId);
@@ -73,17 +71,12 @@ public sealed class CurrencyRewardDeliveryHandler(
         EnsureCompatibleEntitlement(entitlement);
 
         var member = await memberRepository.GetByIdForUpdateAsync(
-            entitlement.MemberId,
-            ct);
+            entitlement.MemberId, ct);
 
         if (member is null)
         {
-            entitlement.RecordDeliveryFailure(
-                $"Member {entitlement.MemberId} was not found.");
-
-            return RewardDeliveryResult.Failed(
-                entitlement.Id,
-                "Reward beneficiary not found.");
+            entitlement.RecordDeliveryFailure($"Member {entitlement.MemberId} was not found.");
+            return RewardDeliveryResult.Failed(entitlement.Id, "Reward beneficiary not found.");
         }
 
         ApplyDelivery(entitlement, member);
