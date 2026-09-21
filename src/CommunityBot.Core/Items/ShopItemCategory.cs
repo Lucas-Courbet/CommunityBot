@@ -1,7 +1,7 @@
 ﻿namespace CommunityBot.Core.Items;
 
 /// <summary>
-/// Categorizes shop offers for presentation and purchase behavior.
+/// Categorizes shop offers for catalog presentation and filtering.
 /// </summary>
 public enum ShopItemCategory
 {

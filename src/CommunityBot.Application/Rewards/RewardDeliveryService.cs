@@ -5,6 +5,10 @@ namespace CommunityBot.Application.Rewards;
 /// <summary>
 /// Routes reward entitlements to the delivery handler responsible for their type.
 /// </summary>
+/// <remarks>
+/// This service contains no reward-specific delivery logic. Each handler remains responsible for
+/// its delivery workflow, transactional requirements and entitlement state transitions.
+/// </remarks>
 public sealed class RewardDeliveryService : IRewardDeliveryService
 {
     private readonly IRewardEntitlementRepository _rewardEntitlementRepository;

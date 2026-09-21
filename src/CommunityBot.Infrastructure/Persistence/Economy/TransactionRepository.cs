@@ -4,9 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CommunityBot.Infrastructure.Persistence.Economy;
 
-/// <summary>
-/// Entity Framework Core implementation of financial transaction persistence.
-/// </summary>
+/// <inheritdoc />
 public sealed class TransactionRepository(AppDbContext context)
     : ABaseRepository<Transaction, long>(context), ITransactionRepository
 {

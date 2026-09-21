@@ -13,6 +13,11 @@ namespace CommunityBot.Application.Shop;
 /// <summary>
 /// Orchestrates atomic shop purchases.
 /// </summary>
+/// <remarks>
+/// Purchase state is flushed before durable activity capture while the transaction remains
+/// caller-owned and uncommitted. Activity capture uses isolated savepoints within that transaction,
+/// allowing recoverable capture failures to be handled without invalidating the purchase.
+/// </remarks>
 public sealed class ShopPurchaseService(
     ShopPurchaseStore store,
     IPersistenceContext persistenceContext,
@@ -21,6 +26,7 @@ public sealed class ShopPurchaseService(
     ILogger<ShopPurchaseService> logger)
     : IShopPurchaseService
 {
+    /// <inheritdoc />
     public async Task<PurchaseResult> PurchaseItemAsync(
         ulong memberId,
         string itemId,
@@ -38,11 +44,6 @@ public sealed class ShopPurchaseService(
             if (processing is not PurchaseProcessingResult.Completed completed)
                 throw new InvalidOperationException("Unsupported shop purchase processing result.");
 
-            /*
-             * Source-owned changes are deliberately flushed before activity capture.
-             * ActivityCaptureService then operates in its own savepoint while the
-             * purchase transaction remains caller-owned and uncommitted.
-             */
             await persistenceContext.SaveChangesAsync(ct);
 
             await CapturePurchaseActivityAsync(completed, ct);

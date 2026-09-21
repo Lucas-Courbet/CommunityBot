@@ -6,6 +6,14 @@ using Microsoft.Extensions.Options;
 
 namespace CommunityBot.Infrastructure.Activities.Workers;
 
+/// <summary>
+/// Continuously reconciles conservatively captured activities.
+/// </summary>
+/// <remarks>
+/// Each reconciliation attempt runs in a fresh dependency-injection scope so a failed EF Core
+/// unit of work is discarded before the next attempt. Pending work remains represented durably
+/// by reconciliation markers.
+/// </remarks>
 public sealed class ActivityReconciliationWorker(
     IServiceScopeFactory scopeFactory,
     IOptions<ActivityReconciliationWorkerOptions> options,
@@ -15,6 +23,7 @@ public sealed class ActivityReconciliationWorker(
 {
     private readonly ActivityReconciliationWorkerOptions _options = options.Value;
 
+    /// <inheritdoc />
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         while (!stoppingToken.IsCancellationRequested)

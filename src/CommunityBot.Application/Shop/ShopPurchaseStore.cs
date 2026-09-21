@@ -17,6 +17,10 @@ public sealed class ShopPurchaseStore(
     IShopItemRepository shopItemRepository,
     ITransactionRepository transactionRepository)
 {
+    /// <summary>
+    /// Loads the state required to evaluate a purchase while locking the member row
+    /// for the caller-owned transaction.
+    /// </summary>
     public async Task<(Member? Member, ShopItem? ShopItem)> LoadPurchaseContextAsync(
         ulong memberId,
         string itemId,

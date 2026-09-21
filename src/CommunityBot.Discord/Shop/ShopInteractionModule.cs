@@ -9,6 +9,13 @@ using NetCord.Services.ComponentInteractions;
 
 namespace CommunityBot.Discord.Shop;
 
+/// <summary>
+/// Handles interactive Discord components for the Shop workflow.
+/// </summary>
+/// <remarks>
+/// Shop navigation uses in-place view replacement: category pages, purchase confirmations
+/// and purchase results update the current interaction message rather than creating new messages.
+/// </remarks>
 public sealed class ShopInteractionModule(
     IPaginationDispatcher paginationDispatcher,
     ILogger<ShopInteractionModule> logger,

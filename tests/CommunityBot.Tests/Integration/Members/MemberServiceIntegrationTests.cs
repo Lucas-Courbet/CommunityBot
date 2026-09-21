@@ -22,7 +22,6 @@ public sealed class MemberServiceIntegrationTests(
             DateTimeOffset.UtcNow,
             false);
 
-        // Create
         var repository = new MemberRepository(Context);
 
         var service = new MemberService(

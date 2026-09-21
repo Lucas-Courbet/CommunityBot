@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CommunityBot.Infrastructure.Persistence.Items;
 
+/// <inheritdoc />
 public sealed class ShopItemRepository(AppDbContext context)
     : ABaseRepository<ShopItem, string>(context), IShopItemRepository
 {

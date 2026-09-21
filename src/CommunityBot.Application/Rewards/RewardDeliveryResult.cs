@@ -2,6 +2,9 @@
 
 namespace CommunityBot.Application.Rewards;
 
+/// <summary>
+/// Represents the outcome of a reward delivery request.
+/// </summary>
 public sealed record RewardDeliveryResult : Result
 {
     public required RewardDeliveryStatus Status { get; init; }

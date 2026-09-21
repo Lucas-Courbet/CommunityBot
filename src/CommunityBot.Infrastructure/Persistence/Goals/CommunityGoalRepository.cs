@@ -4,9 +4,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CommunityBot.Infrastructure.Persistence.Goals;
 
+/// <inheritdoc />
 public sealed class CommunityGoalRepository(AppDbContext context)
     : ABaseRepository<CommunityGoal, string>(context), ICommunityGoalRepository
 {
+    /// <inheritdoc />
     public Task<CommunityGoal?> GetByIdForUpdateAsync(
         string goalId,
         CancellationToken ct = default)

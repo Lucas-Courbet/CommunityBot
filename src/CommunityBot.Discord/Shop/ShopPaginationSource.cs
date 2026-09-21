@@ -3,6 +3,9 @@ using CommunityBot.Discord.Pagination;
 
 namespace CommunityBot.Discord.Shop;
 
+/// <summary>
+/// Defines pagination sources for Shop category pages.
+/// </summary>
 public static class ShopPaginationSource
 {
     private const string Key = "shop";

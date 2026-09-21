@@ -3,9 +3,11 @@ using CommunityBot.Core.Items;
 
 namespace CommunityBot.Application.Shop;
 
+/// <inheritdoc />
 public sealed class ShopCatalogService(IShopItemRepository shopItemRepository)
     : IShopCatalogService
 {
+    /// <inheritdoc />
     public async Task<ShopItemDto?> GetItemAsync(string itemId, CancellationToken ct = default)
     {
         var shopItem = await shopItemRepository.GetWithItemAsync(itemId, ct);
@@ -15,6 +17,7 @@ public sealed class ShopCatalogService(IShopItemRepository shopItemRepository)
             : MapToDto(shopItem);
     }
 
+    /// <inheritdoc />
     public async Task<IEnumerable<ShopItemDto>> GetCatalogAsync(
         ShopItemCategory? filterCategory = null,
         CancellationToken ct = default)

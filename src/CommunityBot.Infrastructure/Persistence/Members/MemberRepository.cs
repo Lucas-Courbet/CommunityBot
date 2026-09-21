@@ -4,9 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CommunityBot.Infrastructure.Persistence.Members;
 
-/// <summary>
-/// Entity Framework Core implementation of member persistence.
-/// </summary>
+/// <inheritdoc />
 public sealed class MemberRepository(AppDbContext context)
     : ABaseRepository<Member, ulong>(context), IMemberRepository
 {

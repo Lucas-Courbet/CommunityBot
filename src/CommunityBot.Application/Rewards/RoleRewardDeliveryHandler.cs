@@ -9,9 +9,9 @@ namespace CommunityBot.Application.Rewards;
 /// Delivers Role reward entitlements through an external role service.
 /// </summary>
 /// <remarks>
-/// The external operation is intentionally executed outside the database transaction.
-/// Its outcome is persisted afterwards in a short transaction that reloads and locks
-/// the entitlement.
+/// The external operation is intentionally executed outside the database transaction. Its outcome is
+/// persisted afterwards in a short transaction that reloads and locks the entitlement, then verifies
+/// that it still matches the snapshot used for the external operation before applying the transition.
 /// </remarks>
 public sealed class RoleRewardDeliveryHandler(
     IPersistenceContext persistenceContext,
@@ -22,6 +22,7 @@ public sealed class RoleRewardDeliveryHandler(
 {
     public RewardType RewardType => RewardType.Role;
 
+    /// <inheritdoc />
     public async Task<RewardDeliveryResult> DeliverAsync(long entitlementId, CancellationToken ct = default)
     {
         var snapshot = await rewardEntitlementRepository.GetDeliverySnapshotAsync(

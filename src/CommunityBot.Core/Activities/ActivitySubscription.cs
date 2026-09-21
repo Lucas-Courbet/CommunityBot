@@ -13,18 +13,32 @@ public sealed class ActivitySubscription : IEntity<long>, IAuditable
 
     public required ActivityConsumerType ConsumerType { get; init; }
 
+    /// <summary>
+    /// Stable consumer-specific reference identifying the subscribed context.
+    /// </summary>
     public required string ContextReference { get; init; }
 
+    /// <summary>
+    /// Inclusive beginning of the capture window.
+    /// </summary>
     public required DateTime CaptureFrom { get; init; }
 
+    /// <summary>
+    /// Exclusive end of the capture window.
+    /// </summary>
     public required DateTime CaptureUntil { get; set; }
 
     public ActivityCaptureGate? CaptureGate { get; set; }
 
+    /// <inheritdoc />
     public DateTime CreatedAt { get; set; }
 
+    /// <inheritdoc />
     public DateTime UpdatedAt { get; set; }
 
+    /// <summary>
+    /// Stops future capture at the specified instant without extending an already earlier deadline.
+    /// </summary>
     public void CloseAt(DateTime closedAt)
     {
         ValidateUtc(closedAt, nameof(closedAt));
@@ -38,6 +52,9 @@ public sealed class ActivitySubscription : IEntity<long>, IAuditable
             CaptureUntil = closedAt;
     }
 
+    /// <summary>
+    /// Extends the capture window to the supplied later deadline.
+    /// </summary>
     public void ExtendUntil(DateTime captureUntil)
     {
         ValidateUtc(captureUntil, nameof(captureUntil));

@@ -11,7 +11,6 @@ public sealed class AuditInterceptorTests(
     [Fact]
     public async Task SaveChangesAsync_ShouldMaintainAuditTimestamps()
     {
-        // Arrange
         var member = Member.Create(
             new MemberIdentity(
                 999UL,
@@ -30,7 +29,6 @@ public sealed class AuditInterceptorTests(
 
         await Task.Delay(100);
 
-        // Act
         member.SynchronizeIdentity(
             new MemberIdentity(
                 member.Id,
@@ -41,7 +39,6 @@ public sealed class AuditInterceptorTests(
 
         await repository.SaveChangesAsync();
 
-        // Assert
         Assert.NotEqual(default, member.CreatedAt);
         Assert.Equal(initialCreatedAt, member.CreatedAt);
         Assert.True(member.UpdatedAt > initialUpdatedAt);

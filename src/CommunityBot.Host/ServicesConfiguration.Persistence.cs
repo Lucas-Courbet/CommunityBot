@@ -22,10 +22,6 @@ namespace CommunityBot.Host;
 
 public static partial class ServicesConfiguration
 {
-    /// <summary>
-    /// Configures PostgreSQL, Entity Framework Core
-    /// and persistence-related services.
-    /// </summary>
     private static void ConfigurePersistence(
         IServiceCollection services,
         IConfiguration configuration)

@@ -3,10 +3,7 @@ using Microsoft.Extensions.Logging;
 
 namespace CommunityBot.Application.Members;
 
-/// <summary>
-/// Coordinates member lifecycle operations between the domain
-/// and the persistence layer.
-/// </summary>
+/// <inheritdoc />
 public sealed class MemberService(
     IMemberRepository memberRepository,
     ILogger<MemberService> logger)
@@ -70,8 +67,7 @@ public sealed class MemberService(
 
         if (member is null)
         {
-            logger.LogWarning("Attempted to deactivate unknown member {MemberId}",
-                id);
+            logger.LogWarning("Attempted to deactivate unknown member {MemberId}", id);
 
             return MemberDeactivationStatus.NotFound;
         }
@@ -91,20 +87,14 @@ public sealed class MemberService(
     }
 
     /// <inheritdoc />
-    public Task<Member?> GetByIdAsync(
-        ulong id,
-        CancellationToken ct = default)
+    public Task<Member?> GetByIdAsync(ulong id, CancellationToken ct = default)
         => memberRepository.GetByIdAsync(id, ct);
 
     /// <inheritdoc />
-    public Task<Member?> GetByUsernameAsync(
-        string username,
-        CancellationToken ct = default)
+    public Task<Member?> GetByUsernameAsync(string username, CancellationToken ct = default)
         => memberRepository.GetByUsernameAsync(username, ct);
 
     /// <inheritdoc />
-    public Task<bool> ExistsAsync(
-        ulong id,
-        CancellationToken ct = default)
+    public Task<bool> ExistsAsync(ulong id, CancellationToken ct = default)
         => memberRepository.ExistsAsync(id, ct);
 }

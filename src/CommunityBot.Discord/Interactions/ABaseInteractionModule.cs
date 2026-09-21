@@ -4,6 +4,10 @@ using NetCord.Services.ComponentInteractions;
 
 namespace CommunityBot.Discord.Interactions;
 
+/// <summary>
+/// Base class for component interaction modules.
+/// Centralizes logging, deferred modification and standardized error handling.
+/// </summary>
 public abstract class ABaseInteractionModule(
     ILogger logger,
     IResponseService responseService)
@@ -11,9 +15,15 @@ public abstract class ABaseInteractionModule(
 {
     protected IResponseService ResponseService { get; } = responseService;
 
+    /// <summary>
+    /// Executes a component interaction that responds immediately.
+    /// </summary>
     protected Task ExecuteInteractionAsync(string interactionName, Func<Task> operation)
         => ExecuteInteractionCoreAsync(interactionName, operation, deferModify: false);
 
+    /// <summary>
+    /// Defers modification of the source message before executing the interaction.
+    /// </summary>
     protected Task ExecuteDeferredInteractionAsync(string interactionName, Func<Task> operation)
         => ExecuteInteractionCoreAsync(interactionName, operation, deferModify: true);
 

@@ -7,7 +7,6 @@ namespace CommunityBot.Core.Members;
 
 /// <summary>
 /// Represents a Discord member tracked by the application.
-/// Acts as the aggregate root for member identity, lifecycle and financial state.
 /// </summary>
 public sealed class Member : IEntity<ulong>, IAuditable
 {
@@ -16,24 +15,12 @@ public sealed class Member : IEntity<ulong>, IAuditable
     /// </summary>
     public ulong Id { get; private set; }
 
-    /// <summary>
-    /// Current Discord username.
-    /// </summary>
     public string Username { get; private set; } = null!;
 
-    /// <summary>
-    /// Current Discord display name, when available.
-    /// </summary>
     public string? DisplayName { get; private set; }
 
-    /// <summary>
-    /// Date at which the member joined the Discord community, when available.
-    /// </summary>
     public DateTimeOffset? JoinedAt { get; private set; }
 
-    /// <summary>
-    /// Indicates whether the Discord account belongs to a bot.
-    /// </summary>
     public bool IsBot { get; private set; }
 
     /// <summary>
@@ -42,9 +29,6 @@ public sealed class Member : IEntity<ulong>, IAuditable
     /// </summary>
     public bool IsActive { get; private set; }
 
-    /// <summary>
-    /// Current amount of application currency available to the member.
-    /// </summary>
     public int CurrencyBalance { get; private set; }
 
     /// <inheritdoc />
@@ -53,24 +37,15 @@ public sealed class Member : IEntity<ulong>, IAuditable
     /// <inheritdoc />
     public DateTime UpdatedAt { get; set; }
 
-    /// <summary>
-    /// Financial transactions associated with the member.
-    /// </summary>
     public ICollection<Transaction> Transactions { get; private set; }
         = new List<Transaction>();
 
-    /// <summary>
-    /// Inventory entries owned by the member.
-    /// </summary>
     public ICollection<InventoryItem> Inventory { get; private set; }
         = new List<InventoryItem>();
 
     public ICollection<RewardEntitlement> RewardEntitlements { get; private set; }
         = new List<RewardEntitlement>();
 
-    /// <summary>
-    /// Reserved for persistence frameworks.
-    /// </summary>
     private Member()
     {
     }
@@ -86,9 +61,6 @@ public sealed class Member : IEntity<ulong>, IAuditable
         CurrencyBalance = 0;
     }
 
-    /// <summary>
-    /// Creates a new active member from the supplied Discord identity.
-    /// </summary>
     public static Member Create(MemberIdentity identity)
     {
         ValidateIdentity(identity);
@@ -113,9 +85,6 @@ public sealed class Member : IEntity<ulong>, IAuditable
         IsActive = true;
     }
 
-    /// <summary>
-    /// Credits application currency to the member.
-    /// </summary>
     public void CreditCurrency(int amount)
     {
         if (amount <= 0)
@@ -124,9 +93,6 @@ public sealed class Member : IEntity<ulong>, IAuditable
         CurrencyBalance += amount;
     }
 
-    /// <summary>
-    /// Debits application currency from the member.
-    /// </summary>
     public void DebitCurrency(int amount)
     {
         if (amount <= 0)
@@ -141,6 +107,10 @@ public sealed class Member : IEntity<ulong>, IAuditable
     /// <summary>
     /// Synchronizes the member with the supplied Discord identity.
     /// </summary>
+    /// <remarks>
+    /// Join timestamps are normalized to UTC. When Discord does not supply a join timestamp,
+    /// an existing value is preserved rather than cleared.
+    /// </remarks>
     /// <returns>
     /// <see langword="true"/> when at least one identity field changed;
     /// otherwise <see langword="false"/>.
@@ -170,8 +140,6 @@ public sealed class Member : IEntity<ulong>, IAuditable
 
         var joinedAt = NormalizeJoinedAt(identity.JoinedAt);
 
-        // Discord may provide no join timestamp for some identity snapshots.
-        // A missing value must not erase a timestamp already known by the application.
         if (joinedAt is not null && JoinedAt != joinedAt)
         {
             JoinedAt = joinedAt;

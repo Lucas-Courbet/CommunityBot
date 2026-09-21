@@ -5,13 +5,15 @@ using Microsoft.Extensions.Logging;
 namespace CommunityBot.Infrastructure.Persistence.Seeders;
 
 /// <summary>
-/// Synchronizes the default showcase Shop catalog and its canonical Items.
-/// Seed values are synthetic and contain no production configuration.
+/// Synchronizes the default Shop catalog and its canonical Items.
 /// </summary>
 public sealed class ShopCatalogSeeder(
     AppDbContext context,
     ILogger<ShopCatalogSeeder> logger)
 {
+    /// <summary>
+    /// Inserts missing canonical Items and Shop offers, and synchronizes their seeded data.
+    /// </summary>
     public async Task<int> SeedAsync(CancellationToken ct = default)
     {
         var seeds = GetSeeds();

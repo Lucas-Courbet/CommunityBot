@@ -37,6 +37,7 @@ public sealed class AppDbContext(
 
     public DbSet<CommunityGoal> CommunityGoals => Set<CommunityGoal>();
 
+    // PostgreSQL has no unsigned integer type, so Discord identifiers are persisted as bigint.
     protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
     {
         configurationBuilder.Properties<ulong>().HaveConversion<long>();
@@ -47,6 +48,7 @@ public sealed class AppDbContext(
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
     }
 
+    /// <inheritdoc />
     public async Task<IPersistenceTransaction> BeginTransactionAsync(CancellationToken ct = default)
         => new EfPersistenceTransaction(await Database.BeginTransactionAsync(ct));
 }

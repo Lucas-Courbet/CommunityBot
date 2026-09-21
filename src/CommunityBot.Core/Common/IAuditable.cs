@@ -1,8 +1,7 @@
 ﻿namespace CommunityBot.Core.Common;
 
 /// <summary>
-/// Defines the contract for entities requiring automatic
-/// persistence timestamp tracking.
+/// Marks entities whose persistence timestamps are maintained automatically.
 /// </summary>
 public interface IAuditable
 {

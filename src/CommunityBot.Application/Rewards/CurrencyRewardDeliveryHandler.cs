@@ -9,7 +9,7 @@ using Microsoft.Extensions.Logging;
 namespace CommunityBot.Application.Rewards;
 
 /// <summary>
-/// Delivers Currency reward entitlements atomically.
+/// Delivers Currency reward entitlements by crediting the member and recording the financial movement atomically.
 /// </summary>
 public sealed class CurrencyRewardDeliveryHandler(
     IPersistenceContext persistenceContext,
@@ -21,6 +21,7 @@ public sealed class CurrencyRewardDeliveryHandler(
 {
     public RewardType RewardType => RewardType.Currency;
 
+    /// <inheritdoc />
     public async Task<RewardDeliveryResult> DeliverAsync(
         long entitlementId,
         CancellationToken ct = default)

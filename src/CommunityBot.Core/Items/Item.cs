@@ -13,14 +13,8 @@ public sealed class Item : IEntity<string>, IAuditable
     /// </summary>
     public required string Id { get; init; }
 
-    /// <summary>
-    /// Display name shown to users.
-    /// </summary>
     public required string Label { get; set; }
 
-    /// <summary>
-    /// Optional description of the item.
-    /// </summary>
     public string? Description { get; set; }
 
     /// <summary>
@@ -29,7 +23,7 @@ public sealed class Item : IEntity<string>, IAuditable
     public required bool IsStackable { get; set; }
 
     /// <summary>
-    /// Optional Discord role key represented by this item.
+    /// Optional Discord role key associated with ownership of this item.
     /// </summary>
     public string? GrantedRoleKey { get; set; }
 

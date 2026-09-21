@@ -1,5 +1,8 @@
 ﻿namespace CommunityBot.Application.Activities;
 
+/// <summary>
+/// Represents a failure that occurred after an activity consumption was claimed for processing.
+/// </summary>
 public sealed class ActivityConsumptionProcessingException(
     long consumptionId,
     DateTime attemptedAt,
@@ -8,5 +11,8 @@ public sealed class ActivityConsumptionProcessingException(
 {
     public long ConsumptionId { get; } = consumptionId;
 
+    /// <summary>
+    /// UTC timestamp of the processing attempt that failed.
+    /// </summary>
     public DateTime AttemptedAt { get; } = attemptedAt;
 }

@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CommunityBot.Infrastructure.Persistence.Activities;
 
+/// <inheritdoc />
 public sealed class ActivityConsumptionRepository(AppDbContext context)
     : IActivityConsumptionRepository
 {
@@ -13,6 +14,7 @@ public sealed class ActivityConsumptionRepository(AppDbContext context)
         context.ActivityConsumptions.AddRange(consumptions);
     }
 
+    /// <inheritdoc />
     public async Task<ActivityConsumption?> GetNextPendingForUpdateAsync(
         DateTime now,
         CancellationToken ct = default)
@@ -49,6 +51,7 @@ public sealed class ActivityConsumptionRepository(AppDbContext context)
         return consumption;
     }
 
+    /// <inheritdoc />
     public Task<ActivityConsumption?> GetByIdForUpdateAsync(
         long id,
         CancellationToken ct = default)

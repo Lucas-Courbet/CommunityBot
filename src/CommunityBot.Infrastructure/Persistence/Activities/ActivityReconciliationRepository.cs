@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CommunityBot.Infrastructure.Persistence.Activities;
 
+/// <inheritdoc />
 public sealed class ActivityReconciliationRepository(AppDbContext context)
     : IActivityReconciliationRepository
 {
@@ -13,6 +14,7 @@ public sealed class ActivityReconciliationRepository(AppDbContext context)
         context.ActivityReconciliations.Add(reconciliation);
     }
 
+    /// <inheritdoc />
     public async Task<ActivityReconciliation?> GetNextForUpdateAsync(
         CancellationToken ct = default)
     {

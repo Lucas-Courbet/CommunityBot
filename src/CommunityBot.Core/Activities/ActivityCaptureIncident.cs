@@ -3,9 +3,12 @@
 namespace CommunityBot.Core.Activities;
 
 /// <summary>
-/// Records a known loss of an activity capture after both nominal
-/// and conservative persistence failed.
+/// Records a known loss of activity capture after nominal and conservative persistence both failed.
 /// </summary>
+/// <remarks>
+/// A capture incident is a diagnostic trace, not a reconstructed activity event.
+/// It must not be treated as proof that the missing event can be recreated automatically.
+/// </remarks>
 public sealed class ActivityCaptureIncident : IEntity<long>
 {
     public long Id { get; init; }

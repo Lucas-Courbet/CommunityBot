@@ -3,7 +3,7 @@
 namespace CommunityBot.Application.Economy;
 
 /// <summary>
-/// Encapsulates the parameters required to execute a balance modification.
+/// Encapsulates a balance modification request using a positive amount whose financial direction is defined by the operation.
 /// </summary>
 public sealed record TransactionRequest(
     ulong MemberId,

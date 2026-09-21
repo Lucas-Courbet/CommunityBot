@@ -3,9 +3,12 @@
 namespace CommunityBot.Core.Activities;
 
 /// <summary>
-/// Marks a conservatively captured activity event that still requires
-/// reconciliation against historical subscriptions.
+/// Marks a conservatively captured activity event that still requires reconciliation against historical subscriptions.
 /// </summary>
+/// <remarks>
+/// The row exists only while reconciliation is pending. Its primary key is also the foreign key of the associated
+/// <see cref="ActivityEvent"/>, so at most one reconciliation can be pending for an event.
+/// </remarks>
 public sealed class ActivityReconciliation : IEntity<long>
 {
     private ActivityReconciliation()

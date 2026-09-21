@@ -4,9 +4,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CommunityBot.Infrastructure.Persistence.Rewards;
 
+/// <inheritdoc />
 public sealed class RewardEntitlementRepository(AppDbContext context)
     : ABaseRepository<RewardEntitlement, long>(context), IRewardEntitlementRepository
 {
+    /// <inheritdoc />
     public Task<RewardEntitlement?> GetByIdForUpdateAsync(
         long entitlementId,
         CancellationToken ct = default)
@@ -20,6 +22,7 @@ public sealed class RewardEntitlementRepository(AppDbContext context)
                  """)
             .SingleOrDefaultAsync(ct);
 
+    /// <inheritdoc />
     public Task<RewardType?> GetRewardTypeByIdAsync(
         long entitlementId,
         CancellationToken ct = default)
@@ -29,6 +32,7 @@ public sealed class RewardEntitlementRepository(AppDbContext context)
             .Select(entitlement => (RewardType?)entitlement.RewardType)
             .SingleOrDefaultAsync(ct);
 
+    /// <inheritdoc />
     public Task<RewardDeliverySnapshot?> GetDeliverySnapshotAsync(
         long entitlementId,
         CancellationToken ct = default)

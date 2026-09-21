@@ -4,9 +4,6 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace CommunityBot.Infrastructure.Persistence.Economy;
 
-/// <summary>
-/// Configures relational persistence for financial transactions.
-/// </summary>
 public sealed class TransactionConfiguration : IEntityTypeConfiguration<Transaction>
 {
     public void Configure(EntityTypeBuilder<Transaction> builder)

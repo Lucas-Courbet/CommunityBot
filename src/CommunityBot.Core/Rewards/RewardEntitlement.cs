@@ -10,17 +10,20 @@ public sealed class RewardEntitlement : IEntity<long>, IAuditable
 {
     public long Id { get; init; }
 
+    /// <summary>
+    /// Discord identifier of the member receiving the reward.
+    /// </summary>
     public required ulong MemberId { get; init; }
 
     /// <summary>
-    /// Stable identifier of the operation that created this entitlement.
+    /// Stable reference to the operation that created this entitlement.
     /// </summary>
     public required string SourceReference { get; init; }
 
     public required RewardType RewardType { get; init; }
 
     /// <summary>
-    /// Optional target reference used by reward-specific delivery handlers.
+    /// Optional target reference interpreted by the reward-specific delivery handler.
     /// </summary>
     public string? RewardReference { get; init; }
 
@@ -38,12 +41,17 @@ public sealed class RewardEntitlement : IEntity<long>, IAuditable
 
     public Member? Member { get; set; }
 
+    /// <inheritdoc />
     public DateTime CreatedAt { get; set; }
 
+    /// <inheritdoc />
     public DateTime UpdatedAt { get; set; }
 
     public bool IsFinalized => Status == RewardEntitlementStatus.Delivered;
 
+    /// <summary>
+    /// Records a successful delivery attempt and finalizes the entitlement.
+    /// </summary>
     public void MarkAsDelivered()
     {
         EnsureNotFinalized();
@@ -56,6 +64,12 @@ public sealed class RewardEntitlement : IEntity<long>, IAuditable
         DeliveredAt = now;
     }
 
+    /// <summary>
+    /// Records a failed delivery attempt without finalizing the entitlement.
+    /// </summary>
+    /// <remarks>
+    /// Failed entitlements remain eligible for a later delivery attempt.
+    /// </remarks>
     public void RecordDeliveryFailure(string error)
     {
         EnsureNotFinalized();

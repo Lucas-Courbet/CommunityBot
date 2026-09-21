@@ -7,6 +7,15 @@ using Npgsql;
 
 namespace CommunityBot.Infrastructure.Activities;
 
+/// <summary>
+/// Implements durable activity capture with conservative fallback and incident recording.
+/// </summary>
+/// <remarks>
+/// Capture is serialized per activity type through its permanent capture gate. Each persistence stage
+/// is isolated through a savepoint inside the caller-owned transaction, which this service never completes.
+/// Recoverable nominal failures fall back to conservative capture for later reconciliation; if that also
+/// fails, a diagnostic capture incident is persisted when possible.
+/// </remarks>
 public sealed class ActivityCaptureService(
     ActivityCaptureStore store,
     ActivityCaptureTransactionCoordinator transactionCoordinator,
@@ -20,6 +29,7 @@ public sealed class ActivityCaptureService(
     private const string ConservativeSavepoint = "activity_capture_conservative";
     private const string IncidentSavepoint = "activity_capture_incident";
 
+    /// <inheritdoc />
     public async Task<ActivityCaptureResult> CaptureAsync(
         ActivityEventCandidate candidate,
         CancellationToken ct = default)

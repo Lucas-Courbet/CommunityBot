@@ -7,6 +7,13 @@ using Microsoft.Extensions.Options;
 
 namespace CommunityBot.Infrastructure.Activities.Workers;
 
+/// <summary>
+/// Processes durable activity consumptions and records failed attempts through fresh dependency-injection scopes.
+/// </summary>
+/// <remarks>
+/// Processing and failure recording intentionally use separate scopes so a failed EF Core unit of work
+/// is never reused to persist retry or terminal failure state.
+/// </remarks>
 public sealed class ActivityConsumptionWorker(
     IServiceScopeFactory scopeFactory,
     IOptions<ActivityConsumptionWorkerOptions> options,
@@ -16,6 +23,7 @@ public sealed class ActivityConsumptionWorker(
 {
     private readonly ActivityConsumptionWorkerOptions _options = options.Value;
 
+    /// <inheritdoc />
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         while (!stoppingToken.IsCancellationRequested)

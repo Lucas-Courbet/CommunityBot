@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CommunityBot.Infrastructure.Persistence.Activities;
 
+/// <inheritdoc />
 public sealed class ActivitySubscriptionRepository(AppDbContext context)
     : IActivitySubscriptionRepository
 {
@@ -33,6 +34,7 @@ public sealed class ActivitySubscriptionRepository(AppDbContext context)
                 subscription.ContextReference == contextReference)
             .ToListAsync(ct);
 
+    /// <inheritdoc />
     public async Task<IReadOnlyList<ActivitySubscription>> GetMatchingAsync(
         ActivityEventType eventType,
         DateTime occurredAt,

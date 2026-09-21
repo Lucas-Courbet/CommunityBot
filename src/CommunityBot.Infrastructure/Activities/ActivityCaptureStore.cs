@@ -5,6 +5,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CommunityBot.Infrastructure.Activities;
 
+/// <summary>
+/// Provides the persistence operations required by the activity capture workflow.
+/// </summary>
+/// <remarks>
+/// Transaction and savepoint ownership remain the responsibility of
+/// <see cref="ActivityCaptureTransactionCoordinator"/>. Discard operations restore EF Core tracking
+/// state after a database savepoint rollback, which does not revert the change tracker itself.
+/// </remarks>
 public sealed class ActivityCaptureStore(
     AppDbContext context,
     IActivityCaptureGateRepository captureGateRepository,
@@ -14,6 +22,9 @@ public sealed class ActivityCaptureStore(
     IActivityCaptureIncidentRepository incidentRepository,
     IActivityReconciliationRepository reconciliationRepository)
 {
+    /// <summary>
+    /// Locks the permanent capture gate before resolving subscriptions matching the occurrence time.
+    /// </summary>
     public async Task<IReadOnlyList<ActivitySubscription>> ResolveMatchingSubscriptionsAsync(
         ActivityEventType eventType,
         DateTime occurredAt,

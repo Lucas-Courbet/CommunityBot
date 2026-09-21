@@ -12,13 +12,6 @@ using Serilog.Events;
 
 namespace CommunityBot.Host;
 
-/// <summary>
-/// Execution entry point for the CommunityBot application.
-/// </summary>
-/// <remarks>
-/// Handles application bootstrapping, logging configuration,
-/// database schema initialization and Discord gateway startup.
-/// </remarks>
 internal abstract class Program
 {
     public static async Task<int> Main(string[] args)

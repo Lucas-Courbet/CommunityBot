@@ -21,7 +21,6 @@ public sealed class MemberRepositoryTests(
     [Fact]
     public async Task GetByIdAsync_ShouldRoundTripDiscordSnowflake()
     {
-        // Arrange
         const ulong memberId = 1234567890123456789UL;
 
         var member = Member.Create(
@@ -37,10 +36,8 @@ public sealed class MemberRepositoryTests(
 
         Context.ChangeTracker.Clear();
 
-        // Act
         var result = await _repository.GetByIdAsync(memberId);
 
-        // Assert
         Assert.NotNull(result);
         Assert.Equal(memberId, result.Id);
         Assert.Equal("TestUser", result.Username);
@@ -50,7 +47,6 @@ public sealed class MemberRepositoryTests(
     [Fact]
     public async Task GetByUsernameAsync_ShouldReturnMemberWithoutTracking()
     {
-        // Arrange
         var member = Member.Create(
             new MemberIdentity(
                 456UL,
@@ -64,11 +60,9 @@ public sealed class MemberRepositoryTests(
 
         Context.ChangeTracker.Clear();
 
-        // Act
         var result =
             await _repository.GetByUsernameAsync("LookupUser");
 
-        // Assert
         Assert.NotNull(result);
         Assert.Equal(member.Id, result.Id);
         Assert.Equal(

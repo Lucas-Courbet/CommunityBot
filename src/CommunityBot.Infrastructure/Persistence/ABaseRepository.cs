@@ -14,9 +14,6 @@ public abstract class ABaseRepository<TEntity, TKey>
 {
     protected AppDbContext Context { get; }
 
-    /// <summary>
-    /// Entity Framework set associated with the repository entity type.
-    /// </summary>
     protected DbSet<TEntity> DbSet { get; }
 
     protected ABaseRepository(AppDbContext context)
@@ -57,6 +54,10 @@ public abstract class ABaseRepository<TEntity, TKey>
         => DbSet.AddRange(entities);
 
     /// <inheritdoc />
+    /// <remarks>
+    /// When a detached entity is supplied while another instance with the same primary key is already
+    /// tracked, values are copied onto the tracked instance instead of attaching a duplicate entity.
+    /// </remarks>
     public void Update(TEntity entity)
     {
         var entry = Context.Entry(entity);

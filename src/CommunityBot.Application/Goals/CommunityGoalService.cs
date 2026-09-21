@@ -5,12 +5,20 @@ using CommunityBot.Core.Goals;
 
 namespace CommunityBot.Application.Goals;
 
+/// <summary>
+/// Creates community goals together with the durable activity subscriptions that drive their progress.
+/// </summary>
+/// <remarks>
+/// The goal and its subscription plan are created inside the same caller-owned transaction.
+/// The goal is persisted before the capture plan is armed.
+/// </remarks>
 public sealed class CommunityGoalService(
     IPersistenceContext persistenceContext,
     ICommunityGoalRepository goalRepository,
     IActivitySubscriptionPlanService subscriptionPlanService)
     : ICommunityGoalService
 {
+    /// <inheritdoc />
     public async Task<CommunityGoal> CreateAsync(
         CommunityGoalCreateRequest request,
         CancellationToken ct = default)

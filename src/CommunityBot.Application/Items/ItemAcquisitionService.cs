@@ -2,11 +2,13 @@
 
 namespace CommunityBot.Application.Items;
 
+/// <inheritdoc />
 public sealed class ItemAcquisitionService(
     IItemRepository itemRepository,
     IInventoryRepository inventoryRepository)
     : IItemAcquisitionService
 {
+    /// <inheritdoc />
     public async Task<ItemAcquisitionResult> AcquireAsync(
         ulong memberId,
         string itemId,

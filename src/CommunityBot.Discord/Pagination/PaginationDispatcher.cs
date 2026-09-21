@@ -1,8 +1,13 @@
 ﻿namespace CommunityBot.Discord.Pagination;
 
+/// <inheritdoc />
 public sealed class PaginationDispatcher(IEnumerable<IPaginationStrategy> strategies)
     : IPaginationDispatcher
 {
+    /// <inheritdoc />
+    /// <exception cref="InvalidOperationException">
+    /// Thrown when more than one strategy can handle the same pagination source.
+    /// </exception>
     public async Task<PaginationPage?> GetPageAsync(
         PaginationRequest request,
         CancellationToken ct = default)

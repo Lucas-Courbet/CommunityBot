@@ -4,9 +4,6 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace CommunityBot.Infrastructure.Persistence.Members;
 
-/// <summary>
-/// Configures relational persistence for <see cref="Member"/>.
-/// </summary>
 public sealed class MemberConfiguration : IEntityTypeConfiguration<Member>
 {
     public void Configure(EntityTypeBuilder<Member> builder)

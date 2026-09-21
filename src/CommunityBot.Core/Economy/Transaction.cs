@@ -8,22 +8,12 @@ namespace CommunityBot.Core.Economy;
 /// </summary>
 public sealed class Transaction : IEntity<long>, IAuditable
 {
-    /// <inheritdoc />
     public long Id { get; init; }
-
-    /// <summary>
-    /// Discord identifier of the member affected by the transaction.
-    /// </summary>
+    
     public required ulong MemberId { get; init; }
-
-    /// <summary>
-    /// Affected member navigation property.
-    /// </summary>
+    
     public Member? Member { get; init; }
-
-    /// <summary>
-    /// Optional Discord identifier of the actor who initiated the transaction.
-    /// </summary>
+    
     public ulong? ActorId { get; init; }
 
     /// <summary>
@@ -35,10 +25,7 @@ public sealed class Transaction : IEntity<long>, IAuditable
     /// Category of the financial movement.
     /// </summary>
     public required TransactionType Type { get; init; }
-
-    /// <summary>
-    /// Optional contextual reason associated with the transaction.
-    /// </summary>
+    
     public string? Reason { get; init; }
 
     /// <inheritdoc />

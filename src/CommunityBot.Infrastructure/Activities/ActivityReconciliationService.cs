@@ -4,6 +4,15 @@ using CommunityBot.Core.Activities;
 
 namespace CommunityBot.Infrastructure.Activities;
 
+/// <summary>
+/// Reconciles conservatively captured activities against subscriptions that covered their occurrence time.
+/// </summary>
+/// <remarks>
+/// Each reconciliation owns a short transaction. The pending marker is claimed exclusively, then the
+/// event-type capture gate is locked before historical subscriptions are resolved. Resulting consumptions
+/// and removal of the reconciliation marker are committed atomically, so a failed transaction leaves the
+/// durable marker available for a later attempt.
+/// </remarks>
 public sealed class ActivityReconciliationService(
     IPersistenceContext persistenceContext,
     IActivityReconciliationRepository reconciliationRepository,
@@ -12,6 +21,7 @@ public sealed class ActivityReconciliationService(
     IActivityConsumptionRepository consumptionRepository)
     : IActivityReconciliationService
 {
+    /// <inheritdoc />
     public async Task<bool> ReconcileNextAsync(CancellationToken ct = default)
     {
         await using var transaction = await persistenceContext.BeginTransactionAsync(ct);

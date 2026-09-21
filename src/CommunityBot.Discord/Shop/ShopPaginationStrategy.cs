@@ -3,6 +3,9 @@ using CommunityBot.Discord.Pagination;
 
 namespace CommunityBot.Discord.Shop;
 
+/// <summary>
+/// Handles pagination for Shop category pages.
+/// </summary>
 public sealed class ShopPaginationStrategy(
     IShopCatalogService shopCatalogService,
     IShopRenderService shopRenderService)
@@ -10,9 +13,11 @@ public sealed class ShopPaginationStrategy(
 {
     private const int PageSize = 6;
 
+    /// <inheritdoc />
     public bool CanHandle(string source)
         => ShopPaginationSource.CanHandle(source);
 
+    /// <inheritdoc />
     public async Task<PaginationPage> GetPageAsync(
         PaginationRequest request,
         CancellationToken ct = default)

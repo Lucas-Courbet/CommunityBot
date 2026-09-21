@@ -4,6 +4,9 @@ using NetCord.Rest;
 
 namespace CommunityBot.Discord.Shop;
 
+/// <summary>
+/// Renders Discord views for the Shop workflow.
+/// </summary>
 public interface IShopRenderService
 {
     EmbedProperties GetHomeEmbed();

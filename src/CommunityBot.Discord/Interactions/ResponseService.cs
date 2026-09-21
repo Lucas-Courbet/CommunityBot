@@ -4,8 +4,10 @@ using NetCord.Rest;
 
 namespace CommunityBot.Discord.Interactions;
 
+/// <inheritdoc />
 public sealed class ResponseService(RestClient restClient) : IResponseService
 {
+    /// <inheritdoc />
     public async Task RespondAsync(IInteraction interaction, ResponseRequest response)
     {
         var properties = new InteractionMessageProperties
@@ -23,14 +25,17 @@ public sealed class ResponseService(RestClient restClient) : IResponseService
         await interaction.SendResponseAsync(InteractionCallback.Message(properties));
     }
 
+    /// <inheritdoc />
     public Task RespondErrorAsync(IInteraction interaction, string message)
         => RespondAsync(
             interaction,
             ResponseRequest.FromEmbed(EmbedFactory.Error(message), isEphemeral: true));
 
+    /// <inheritdoc />
     public Task DeferModifyAsync(IInteraction interaction)
         => interaction.SendResponseAsync(InteractionCallback.DeferredModifyMessage);
 
+    /// <inheritdoc />
     public async Task ModifyAsync(IInteraction interaction, ResponseRequest response)
     {
         await restClient.ModifyInteractionResponseAsync(
@@ -44,6 +49,7 @@ public sealed class ResponseService(RestClient restClient) : IResponseService
             });
     }
 
+    /// <inheritdoc />
     public Task ModifyErrorAsync(IInteraction interaction, string message)
         => ModifyAsync(
             interaction,

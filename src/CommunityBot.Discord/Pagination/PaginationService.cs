@@ -3,8 +3,10 @@ using NetCord.Rest;
 
 namespace CommunityBot.Discord.Pagination;
 
+/// <inheritdoc />
 public sealed class PaginationService : IPaginationService
 {
+    /// <inheritdoc />
     public IReadOnlyList<ButtonProperties> CreatePaginationButtons(
         string source,
         ulong ownerId,

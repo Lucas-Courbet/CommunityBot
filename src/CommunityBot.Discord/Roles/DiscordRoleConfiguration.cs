@@ -2,6 +2,7 @@
 
 namespace CommunityBot.Discord.Roles;
 
+/// <inheritdoc />
 public sealed class DiscordRoleConfiguration(
     DiscordRoleSettings settings)
     : IRoleConfiguration
@@ -9,6 +10,7 @@ public sealed class DiscordRoleConfiguration(
     private readonly Dictionary<string, ulong> _roles =
         new(settings.Roles, StringComparer.OrdinalIgnoreCase);
 
+    /// <inheritdoc />
     public bool TryGetRoleByKey(string roleKey, out RoleDefinition role)
     {
         if (_roles.TryGetValue(roleKey, out var roleId) && roleId != 0)

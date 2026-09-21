@@ -4,9 +4,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CommunityBot.Infrastructure.Persistence.Items;
 
+/// <inheritdoc />
 public sealed class InventoryRepository(AppDbContext context)
     : ABaseRepository<InventoryItem, long>(context), IInventoryRepository
 {
+    /// <inheritdoc />
     public Task<InventoryItem?> GetActiveItemAsync(
         ulong memberId,
         string itemId,
@@ -18,6 +20,7 @@ public sealed class InventoryRepository(AppDbContext context)
                 inventoryItem.Status == ItemStatus.Active,
             ct);
 
+    /// <inheritdoc />
     public async Task<(IReadOnlyList<InventoryItem> Inventory, int Count)> GetInventoryAsync(
         InventoryRequest request,
         CancellationToken ct = default)

@@ -12,19 +12,13 @@ public sealed class ShopItem : IEntity<string>, IAuditable
     /// </summary>
     public required string Id { get; init; }
 
-    /// <summary>
-    /// Canonical item sold by this offer.
-    /// </summary>
     public Item Item { get; set; } = null!;
 
     /// <summary>
-    /// Price expressed in application Currency.
+    /// Price expressed in the application's currency.
     /// </summary>
     public required int Price { get; set; }
 
-    /// <summary>
-    /// Category used to organize the shop catalog.
-    /// </summary>
     public required ShopItemCategory Category { get; set; }
 
     /// <summary>

@@ -2,10 +2,6 @@
 
 namespace CommunityBot.Tests.Integration;
 
-/// <summary>
-/// Base class for integration tests requiring an isolated
-/// application database state.
-/// </summary>
 public abstract class IntegrationTestBase(
     PostgreSqlIntegrationFixture fixture)
     : IAsyncLifetime

@@ -25,8 +25,10 @@ public sealed class CommunityGoal : IEntity<string>, IAuditable
 
     public DateTime? CompletedAt { get; private set; }
 
+    /// <inheritdoc />
     public DateTime CreatedAt { get; set; }
 
+    /// <inheritdoc />
     public DateTime UpdatedAt { get; set; }
 
     public bool IsCompleted => CompletedAt is not null;
@@ -63,6 +65,17 @@ public sealed class CommunityGoal : IEntity<string>, IAuditable
         };
     }
 
+    /// <summary>
+    /// Applies progress occurring within the active goal window.
+    /// </summary>
+    /// <remarks>
+    /// Progress is capped at the target. The first accepted update reaching the target
+    /// records the activity occurrence timestamp as the completion time.
+    /// </remarks>
+    /// <returns>
+    /// <see langword="true"/> when the progress was applied;
+    /// otherwise <see langword="false"/>.
+    /// </returns>
     public bool ApplyProgress(int amount, DateTime occurredAt)
     {
         if (amount <= 0)
@@ -73,9 +86,7 @@ public sealed class CommunityGoal : IEntity<string>, IAuditable
         if (IsCompleted || !IsActiveAt(occurredAt))
             return false;
 
-        CurrentCount = (int)Math.Min(
-            TargetCount,
-            (long)CurrentCount + amount);
+        CurrentCount = (int)Math.Min(TargetCount, (long)CurrentCount + amount);
 
         if (CurrentCount == TargetCount)
             CompletedAt = occurredAt;
@@ -83,12 +94,14 @@ public sealed class CommunityGoal : IEntity<string>, IAuditable
         return true;
     }
 
+    /// <summary>
+    /// Determines whether a UTC occurrence timestamp falls within the goal window,
+    /// including its start and excluding its end.
+    /// </summary>
     public bool IsActiveAt(DateTime occurredAt)
     {
         ValidateUtc(occurredAt, nameof(occurredAt));
-
-        return StartsAt <= occurredAt &&
-               occurredAt < EndsAt;
+        return StartsAt <= occurredAt && occurredAt < EndsAt;
     }
 
     private static void ValidateUtc(DateTime value, string paramName)

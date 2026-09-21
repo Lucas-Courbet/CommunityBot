@@ -4,11 +4,13 @@ using NetCord.Rest;
 
 namespace CommunityBot.Discord.Roles;
 
+/// <inheritdoc />
 public sealed class DiscordRoleAdapter(
     DiscordRoleSettings settings,
     RestClient restClient)
     : IRoleAdapter
 {
+    /// <inheritdoc />
     public async Task<bool> UserHasRoleAsync(
         ulong memberId,
         ulong roleId,
@@ -33,6 +35,7 @@ public sealed class DiscordRoleAdapter(
         }
     }
 
+    /// <inheritdoc />
     public async Task<RoleOperationResult?> AssignRoleAsync(
         ulong memberId,
         ulong roleId,

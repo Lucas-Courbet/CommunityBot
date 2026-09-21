@@ -4,9 +4,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CommunityBot.Infrastructure.Persistence.Activities;
 
+/// <inheritdoc />
 public sealed class ActivityCaptureGateRepository(AppDbContext context)
     : IActivityCaptureGateRepository
 {
+    /// <inheritdoc />
     public Task<ActivityCaptureGate?> GetForUpdateAsync(
         ActivityEventType eventType,
         CancellationToken ct = default)

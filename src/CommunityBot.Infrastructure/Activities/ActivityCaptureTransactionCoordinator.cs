@@ -3,8 +3,23 @@ using Microsoft.EntityFrameworkCore.Storage;
 
 namespace CommunityBot.Infrastructure.Activities;
 
+/// <summary>
+/// Coordinates savepoint isolation for activity capture inside a caller-owned transaction.
+/// </summary>
+/// <remarks>
+/// This coordinator never completes the outer transaction. After an isolated capture failure,
+/// it restores both the database savepoint and the corresponding EF Core tracking state before
+/// allowing the capture workflow to degrade safely.
+/// </remarks>
 public sealed class ActivityCaptureTransactionCoordinator(AppDbContext context)
 {
+    /// <summary>
+    /// Verifies that capture can safely begin inside the caller-owned transaction.
+    /// </summary>
+    /// <remarks>
+    /// Source-owned changes must already have been persisted inside the transaction so that a later
+    /// capture <c>SaveChanges</c> cannot accidentally include them in a capture savepoint.
+    /// </remarks>
     public void EnsureReadyForCapture()
     {
         if (context.Database.CurrentTransaction is null)
@@ -18,6 +33,14 @@ public sealed class ActivityCaptureTransactionCoordinator(AppDbContext context)
         }
     }
 
+    /// <summary>
+    /// Executes one capture persistence stage inside a dedicated savepoint.
+    /// </summary>
+    /// <remarks>
+    /// If the operation fails, the database is rolled back to the savepoint and
+    /// <paramref name="rollbackCleanup"/> restores the corresponding EF tracking state.
+    /// Failure to restore either side is considered unrecoverable for safe capture degradation.
+    /// </remarks>
     public async Task<TResult> ExecuteInSavepointAsync<TResult>(
         string savepoint,
         Func<Task<TResult>> operation,
@@ -106,6 +129,9 @@ public sealed class ActivityCaptureTransactionCoordinator(AppDbContext context)
             new AggregateException(stageException, recoveryException));
     }
 
+    /// <summary>
+    /// Indicates that activity capture could not safely restore the caller-owned transaction after an isolated failure.
+    /// </summary>
     internal sealed class CaptureTransactionRecoveryException(
         string message,
         Exception innerException)

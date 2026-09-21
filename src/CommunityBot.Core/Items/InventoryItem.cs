@@ -4,16 +4,12 @@ using CommunityBot.Core.Members;
 namespace CommunityBot.Core.Items;
 
 /// <summary>
-/// Represents an item owned by a member.
+/// Represents a member's inventory entry for a canonical item.
 /// </summary>
 public sealed class InventoryItem : IEntity<long>, IAuditable
 {
-    /// <inheritdoc />
     public long Id { get; init; }
 
-    /// <summary>
-    /// Identifier of the canonical item.
-    /// </summary>
     public required string ItemId { get; init; }
 
     /// <summary>
@@ -21,24 +17,12 @@ public sealed class InventoryItem : IEntity<long>, IAuditable
     /// </summary>
     public required ulong MemberId { get; init; }
 
-    /// <summary>
-    /// Current lifecycle state of this inventory entry.
-    /// </summary>
     public ItemStatus Status { get; set; } = ItemStatus.Active;
 
-    /// <summary>
-    /// Number of units represented by this entry.
-    /// </summary>
     public int Quantity { get; set; } = 1;
 
-    /// <summary>
-    /// Owning member.
-    /// </summary>
     public Member? Member { get; set; }
 
-    /// <summary>
-    /// Canonical item definition.
-    /// </summary>
     public Item? Item { get; set; }
 
     /// <inheritdoc />

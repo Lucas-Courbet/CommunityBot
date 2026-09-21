@@ -36,12 +36,21 @@ public sealed class ActivityConsumption : IEntity<long>, IAuditable
 
     public string? LastError { get; private set; }
 
+    /// <summary>
+    /// Earliest timestamp at which this consumption may be retried automatically.
+    /// A null value means that no durable retry is currently scheduled.
+    /// </summary>
     public DateTime? NextAttemptAt { get; private set; }
 
+    /// <inheritdoc />
     public DateTime CreatedAt { get; set; }
 
+    /// <inheritdoc />
     public DateTime UpdatedAt { get; set; }
 
+    /// <summary>
+    /// Records successful completion of consumer processing.
+    /// </summary>
     public void MarkProcessed(DateTime attemptedAt)
     {
         EnsurePending();
@@ -52,6 +61,9 @@ public sealed class ActivityConsumption : IEntity<long>, IAuditable
         NextAttemptAt = null;
     }
 
+    /// <summary>
+    /// Records successful evaluation that intentionally produced no consumer effect.
+    /// </summary>
     public void MarkIgnored(DateTime attemptedAt)
     {
         EnsurePending();
@@ -62,6 +74,9 @@ public sealed class ActivityConsumption : IEntity<long>, IAuditable
         NextAttemptAt = null;
     }
 
+    /// <summary>
+    /// Records a failed attempt while keeping the consumption pending for a later automatic retry.
+    /// </summary>
     public void ScheduleRetry(DateTime attemptedAt, string error, DateTime nextAttemptAt)
     {
         EnsurePending();
@@ -79,6 +94,9 @@ public sealed class ActivityConsumption : IEntity<long>, IAuditable
         NextAttemptAt = nextAttemptAt;
     }
 
+    /// <summary>
+    /// Records a terminal processing failure that must no longer be retried automatically.
+    /// </summary>
     public void MarkError(DateTime attemptedAt, string error)
     {
         EnsurePending();

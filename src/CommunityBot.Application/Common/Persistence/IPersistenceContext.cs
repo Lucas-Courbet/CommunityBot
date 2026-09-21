@@ -7,5 +7,8 @@ public interface IPersistenceContext
 {
     Task<int> SaveChangesAsync(CancellationToken ct = default);
 
+    /// <summary>
+    /// Begins an explicit transaction whose completion and lifetime are controlled by the caller.
+    /// </summary>
     Task<IPersistenceTransaction> BeginTransactionAsync(CancellationToken ct = default);
 }

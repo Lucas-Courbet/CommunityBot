@@ -5,9 +5,6 @@ using Testcontainers.PostgreSql;
 
 namespace CommunityBot.Tests.Integration;
 
-/// <summary>
-/// Provides a shared disposable PostgreSQL instance for integration tests.
-/// </summary>
 public sealed class PostgreSqlIntegrationFixture : IAsyncLifetime
 {
     private const string DatabaseImage = "postgres:17-alpine";

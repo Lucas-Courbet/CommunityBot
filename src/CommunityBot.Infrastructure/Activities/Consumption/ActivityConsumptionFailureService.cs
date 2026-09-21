@@ -6,6 +6,9 @@ using Microsoft.Extensions.Options;
 
 namespace CommunityBot.Infrastructure.Activities.Consumption;
 
+/// <summary>
+/// Records failed consumption attempts after the processing transaction has been abandoned.
+/// </summary>
 public sealed class ActivityConsumptionFailureService(
     IPersistenceContext persistenceContext,
     IActivityConsumptionRepository consumptionRepository,
@@ -15,6 +18,7 @@ public sealed class ActivityConsumptionFailureService(
 {
     private readonly ActivityConsumptionRetryOptions _options = options.Value;
 
+    /// <inheritdoc />
     public async Task RecordFailureAsync(
         ActivityConsumptionProcessingException failure,
         CancellationToken ct = default)
@@ -33,6 +37,8 @@ public sealed class ActivityConsumptionFailureService(
                 $"Activity consumption '{failure.ConsumptionId}' no longer exists.");
         }
 
+        // The processing commit may have succeeded despite the observed exception,
+        // or another worker may have completed the row before this lock was acquired.
         if (consumption.Status != ActivityConsumptionStatus.Pending)
         {
             await transaction.CommitAsync(ct);

@@ -5,6 +5,9 @@ using CommunityBot.Core.Activities;
 
 namespace CommunityBot.Infrastructure.Activities.Consumption;
 
+/// <summary>
+/// Coordinates transactional processing of durable activity consumptions.
+/// </summary>
 public sealed class ActivityConsumptionService : IActivityConsumptionService
 {
     private readonly IPersistenceContext _persistenceContext;
@@ -37,6 +40,7 @@ public sealed class ActivityConsumptionService : IActivityConsumptionService
         _consumers = consumerList.ToDictionary(consumer => consumer.ConsumerType);
     }
 
+    /// <inheritdoc />
     public async Task<bool> ProcessNextAsync(CancellationToken ct = default)
     {
         await using var transaction = await _persistenceContext.BeginTransactionAsync(ct);
